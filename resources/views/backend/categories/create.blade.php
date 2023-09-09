@@ -10,7 +10,7 @@
 <div class="clearfix"></div> --}}
 
 <div class="row">
-    <div class="col-md-12 col-sm-12  ">
+    <div class="col-md-12 col-sm-12  animation">
         <div class="x_panel">
           <div class="x_title">
             <h2>Add Categories<small>add a product category</small></h2>
@@ -41,7 +41,7 @@
 
               <div class="row my-3">
                 <div class="col-12">
-                  <label for="message">Message (20 chars min, 100 max) :</label>
+                  <label for="message">Note (100 chars max) :</label>
                     <textarea id="message" class="form-control form-control @error('note') is-invalid @enderror" name="note"></textarea>
                 </div>
               </div>

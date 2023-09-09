@@ -10,7 +10,7 @@
 <div class="clearfix"></div> --}}
 
 <div class="row">
-    <div class="col-md-12 col-sm-12  ">
+    <div class="col-md-12 col-sm-12 animation">
         <div class="x_panel">
           <div class="x_title">
             <h2>Categories List <small>All category list show here</small></h2>
@@ -53,7 +53,7 @@
                             </td>
 
                             <form action="{{route('product-category.destroy',$category->id)}}" method="POST" class="d-none deleteForm-{{$category->id}}">
-                              @method('PUT');
+                              @method('PUT')
                               @csrf
                             </form>
                         </tr>

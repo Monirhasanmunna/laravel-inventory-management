@@ -29,6 +29,10 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('backend/build/css/custom.min.css')}}" rel="stylesheet">
+
+    {{-- My Custom css --}}
+    <link href="{{asset('backend/build/css/myCustom.css')}}" rel="stylesheet">
+
     @stack('css')
   </head>
 
@@ -95,7 +99,7 @@
     <script src="{{asset('backend/vendors/iCheck/icheck.min.js')}}"></script>
     <!-- Skycons -->
     <script src="{{asset('backend/vendors/skycons/skycons.js')}}"></script>
-    <!-- Flot -->
+    {{-- <!-- Flot -->
     <script src="{{asset('backend/vendors/Flot/jquery.flot.js')}}"></script>
     <script src="{{asset('backend/vendors/Flot/jquery.flot.pie.js')}}"></script>
     <script src="{{asset('backend/vendors/Flot/jquery.flot.time.js')}}"></script>
@@ -110,7 +114,7 @@
     <!-- JQVMap -->
     <script src="{{asset('backend/vendors/jqvmap/dist/jquery.vmap.js')}}"></script>
     <script src="{{asset('backend/vendors/jqvmap/dist/maps/jquery.vmap.world.js')}}"></script>
-    <script src="{{asset('backend/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js')}}"></script>
+    <script src="{{asset('backend/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js')}}"></script> --}}
     <!-- bootstrap-daterangepicker -->
     <script src="{{asset('backend/vendors/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('backend/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
