@@ -34,7 +34,7 @@
         <li class="{{Request::is('product/*') ? 'active' : ''}}"><a><i class="fa-solid fa-boxes-stacked"></i> Products <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu" style="{{Request::is('product/*') ? 'display: block' : ''}}">
             <li class="{{Request::is('product/categories/*') ? 'current-page' : ''}}"><a href="{{route('product-category.index')}}">Categories</a></li>
-            <li><a href="index2.html">Sub Categories</a></li>
+            <li class="{{Request::is('product/sub_categories/*') ? 'current-page' : ''}}"><a href="{{route('product-sub-category.index')}}">Sub Categories</a></li>
             <li><a href="index3.html">Product List</a></li>
             <li><a href="index3.html">Barcode</a></li>
           </ul>
