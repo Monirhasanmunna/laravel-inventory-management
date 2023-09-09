@@ -29,7 +29,7 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('backend/build/css/custom.min.css')}}" rel="stylesheet">
-
+    @stack('css')
   </head>
 
   <body class="nav-md">
@@ -78,6 +78,7 @@
 
     <!-- jQuery -->
     <script src="{{asset('backend/vendors/jquery/dist/jquery.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap -->
     <script src="{{asset('backend/vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <!-- FastClick -->
@@ -117,11 +118,7 @@
     <!-- Custom Theme Scripts -->
     <script src="{{asset('backend/build/js/custom.min.js')}}"></script>
 
-    <script>
-      $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-    </script>
+    @stack('js')
 	
 
   </body>

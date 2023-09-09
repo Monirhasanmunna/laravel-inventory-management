@@ -49,8 +49,13 @@
                             </td>
                             <td class="text-center">
                                 <a href="{{route('product-category.edit',$category->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="#" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                <a href="javascript:void(0)" onclick="deleteItem({{$category->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
                             </td>
+
+                            <form action="{{route('product-category.destroy',$category->id)}}" method="POST" class="d-none deleteForm-{{$category->id}}">
+                              @method('PUT');
+                              @csrf
+                            </form>
                         </tr>
                     @endforeach
                 </tbody>
@@ -61,3 +66,28 @@
       </div>
 </div>
 @endsection
+
+<script>
+  function deleteItem(id){
+      Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+      if (result.isConfirmed) {
+          Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+          )
+
+          $(".deleteForm-"+id).submit();
+      }
+      });
+      
+  }
+</script>

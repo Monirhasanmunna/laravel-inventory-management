@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/store',[CategoryController::class,'store'])->name('store');
         Route::get('/edit/{id}',[CategoryController::class,'edit'])->name('edit');
         Route::put('/update/{id}',[CategoryController::class,'update'])->name('update');
+        Route::put('/destroy/{id}',[CategoryController::class,'destroy'])->name('destroy');
     });
 });
 
