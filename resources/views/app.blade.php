@@ -29,6 +29,7 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('backend/build/css/custom.min.css')}}" rel="stylesheet">
+
   </head>
 
   <body class="nav-md">
@@ -63,7 +64,10 @@
           <!-- /top navigation -->
 
           <!-- page content -->
-          @yield('content')
+          <div class="right_col" role="main" style="min-height:676px;">
+            @yield('content')
+          </div>
+          
           <!-- /page content -->
 
           <!-- footer content -->
@@ -112,6 +116,13 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{asset('backend/build/js/custom.min.js')}}"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
 	
+
   </body>
 </html>

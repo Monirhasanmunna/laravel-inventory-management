@@ -33,7 +33,7 @@
 
         <li><a><i class="fa-solid fa-boxes-stacked"></i> Products <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="index.html">Categories</a></li>
+            <li><a href="{{route('product-category.index')}}">Categories</a></li>
             <li><a href="index2.html">Sub Categories</a></li>
             <li><a href="index3.html">Product List</a></li>
             <li><a href="index3.html">Barcode</a></li>
