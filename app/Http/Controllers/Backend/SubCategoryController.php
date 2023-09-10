@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,8 @@ class SubCategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('backend.sub-categories.create',compact('categories'));
     }
 
     /**
@@ -30,7 +32,23 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'category_id' => 'required',
+            'name'        => 'required|unique:sub_categories',
+            'status'      => 'required',
+            'note'        => 'max:100'
+        ]);
+
+
+        SubCategory::create([
+            'category_id'   => $request->category_id,
+            'name'          => $request->name,
+            'status'        => $request->status,
+            'note'          => $request->note
+        ]);
+
+        toastr()->success('Sub Category Added');
+        return redirect()->back();
     }
 
     /**
@@ -46,7 +64,9 @@ class SubCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories = Category::all();
+        $subCategory = SubCategory::find($id);
+        return view('backend.sub-categories.edit',compact('subCategory','categories'));
     }
 
     /**
@@ -54,7 +74,22 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'category_id' => 'required',
+            'name'        => 'required',
+            'status'      => 'required',
+            'note'        => 'max:100'
+        ]);
+
+        SubCategory::find($id)->update([
+            'category_id'   => $request->category_id,
+            'name'          => $request->name,
+            'status'        => $request->status,
+            'note'          => $request->note
+        ]);
+
+        toastr()->success('Sub Category Updated');
+        return to_route('product-sub-category.index');
     }
 
     /**
@@ -62,6 +97,8 @@ class SubCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        SubCategory::find($id)->delete();
+        toastr()->success('Sub Category Deleted');
+        return redirect()->back();
     }
 }

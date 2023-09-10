@@ -68,7 +68,7 @@
           <!-- /top navigation -->
 
           <!-- page content -->
-          <div class="right_col" role="main" style="min-height:676px;">
+          <div class="right_col" role="main" style="min-height:100vh;">
             @yield('content')
           </div>
           

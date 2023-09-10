@@ -16,7 +16,7 @@
             <h2>Sub Categories List <small>All sub category list show here</small></h2>
 
             <div class="text-right">
-                <a href="{{route('product-category.create')}}" class="btn btn-success"><i class="fa-solid fa-square-plus mr-2" style="font-size: 18px"></i>Add New</a>
+                <a href="{{route('product-sub-category.create')}}" class="btn btn-success"><i class="fa-solid fa-square-plus mr-2" style="font-size: 18px"></i>Add New</a>
             </div>
             <div class="clearfix"></div>
           </div>
@@ -50,11 +50,11 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{route('product-category.edit',$subCategory->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{{route('product-sub-category.edit',$subCategory->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <a href="javascript:void(0)" onclick="deleteItem({{$subCategory->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
                             </td>
 
-                            <form action="{{route('product-category.destroy',$subCategory->id)}}" method="POST" class="d-none deleteForm-{{$subCategory->id}}">
+                            <form action="{{route('product-sub-category.destroy',$subCategory->id)}}" method="POST" class="d-none deleteForm-{{$subCategory->id}}">
                               @method('PUT')
                               @csrf
                             </form>

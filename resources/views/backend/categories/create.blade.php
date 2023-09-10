@@ -27,7 +27,10 @@
               <div class="row">
                 <div class="col-6">
                   <label for="fullname">Name * :</label>
-                  <input type="text" id="fullname" class="form-control @error('name') is-invalid @enderror" name="name">
+                  <input type="text" id="fullname" class="form-control" name="name" class="@error('name') is-invalid @enderror">
+                  @error('name')
+                      <span class="text-danger">{{ $message }}</span>
+                  @enderror
                 </div>
 
                 <div class="col-6">
@@ -42,7 +45,10 @@
               <div class="row my-3">
                 <div class="col-12">
                   <label for="message">Note (100 chars max) :</label>
-                    <textarea id="message" class="form-control form-control @error('note') is-invalid @enderror" name="note"></textarea>
+                    <textarea id="message" class="form-control form-control" name="note" class="@error('note') is-invalid @enderror"></textarea>
+                    @error('note')
+                      <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
               </div>
               
