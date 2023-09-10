@@ -23,7 +23,7 @@
 
           <div class="x_content">
             <div class="table-responsive">
-              <table class="table table-striped jambo_table bulk_action table-bordered">
+              <table class="table table-striped jambo_table bulk_action table-bordered" id="datatable">
                 <thead>
                   <tr class="headings">
                     <th class="column-title text-center" width='5%'>SL </th>

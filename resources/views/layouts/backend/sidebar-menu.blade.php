@@ -4,6 +4,17 @@
       <ul class="nav side-menu">
         <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Dashboard</a></li>
 
+        <h3>User Management</h3>
+
+        <li class="{{Request::is('user_management/*') ? 'active' : ''}}"><a><i class="fa-solid fa-boxes-stacked"></i> User Management <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu" style="{{Request::is('user_management/*') ? 'display: block' : ''}}">
+            <li class="{{Request::is('user_management/permission/*') ? 'current-page' : ''}}"><a href="{{route('userManagement.permission.index')}}">Permissions</a></li>
+            <li class="{{Request::is('product/sub_categories/*') ? 'current-page' : ''}}"><a href="{{route('product-sub-category.index')}}">Roles</a></li>
+            <li><a href="index3.html">Users</a></li>
+          </ul>
+        </li>
+        
+
         <h3>ACTIVITIES</h3>
 
         <li><a><i class="fa-solid fa-calculator"></i> Expenses <span class="fa fa-chevron-down"></span></a>
@@ -39,6 +50,7 @@
             <li><a href="index3.html">Barcode</a></li>
           </ul>
         </li>
+
         <li><a><i class="fa-solid fa-warehouse"></i> Inventory <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="index.html">View Inventory</a></li>
