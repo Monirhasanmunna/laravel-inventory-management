@@ -18,7 +18,7 @@ class PermissionsSeeder extends Seeder
             'group_name' => 'dashboard'
         ]);
 
-        $userManagementPermissions = ['permissions','roles','users'];
+        $userManagementPermissions = ['user_management','user_management.permissions','user_management.roles','user_management.users'];
 
         foreach ($userManagementPermissions as $key => $permission) {
             Permission::updateOrCreate([
@@ -27,7 +27,7 @@ class PermissionsSeeder extends Seeder
             ]);
         }
 
-        $expenssesPermissions = ['expense_categories','expense_sub_categories','expenses_list'];
+        $expenssesPermissions = ['expenses','expenses.categories','expenses.sub_categories','expenses.list'];
 
         foreach ($expenssesPermissions as $key => $permission) {
             Permission::updateOrCreate([
@@ -37,7 +37,7 @@ class PermissionsSeeder extends Seeder
         }
 
 
-        $purchasesPermissions = ['purchase_list','purchase_return_list'];
+        $purchasesPermissions = ['purchase','purchase.list','purchase.return.list'];
 
         foreach ($purchasesPermissions as $key => $permission) {
             Permission::updateOrCreate([
@@ -47,7 +47,7 @@ class PermissionsSeeder extends Seeder
         }
 
 
-        $salesPermissions = ['quatations_list','invoices_list','sales_return_list'];
+        $salesPermissions = ['sales','sales.quatations.list','sales.invoices.list','sales.return.list'];
 
         foreach ($salesPermissions as $key => $permission) {
             Permission::updateOrCreate([
@@ -57,7 +57,7 @@ class PermissionsSeeder extends Seeder
         }
 
 
-        $productPermissions = ['product_categories','product_sub_categories','product_list','barcode'];
+        $productPermissions = ['products','product.categories','product.sub.categories','product.list','product.barcode'];
 
         foreach ($productPermissions as $key => $permission) {
             Permission::updateOrCreate([
@@ -66,7 +66,7 @@ class PermissionsSeeder extends Seeder
             ]);
         }
 
-        $InventoryPermissions = ['view_inventory','inventory_adjustment'];
+        $InventoryPermissions = ['inventory','inventory.view_inventory','inventory.adjustment'];
 
         foreach ($InventoryPermissions as $key => $permission) {
             Permission::updateOrCreate([

@@ -20,7 +20,8 @@
                   <tr class="headings">
                     <th class="column-title text-center" width='5%'>SL </th>
                     <th class="column-title">Name</th>
-                    <th class="column-title no-link last text-center" width='7%'><span class="nobr">Action</span></th>
+                    <th class="column-title">Permission</th>
+                    <th class="column-title no-link last text-center" width='10%'><span class="nobr">Action</span></th>
                   </tr>
                 </thead>
 
@@ -29,7 +30,9 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{$role->name}}</td>
+                            <td><span class="badge badge-info">{{$role->permissions->count()}}</span></td>
                             <td class="text-center">
+                                <a href="{{route('userManagement.role.permission.create',$role->id)}}" class="btn-sm btn-info"><i class="fa-solid fa-gears"></i></a>
                                 <a href="{{route('userManagement.role.edit',$role->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <a href="javascript:void(0)" onclick="deleteItem({{$role->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
                             </td>
