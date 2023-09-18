@@ -10,7 +10,7 @@
           <ul class="nav child_menu" style="{{Request::is('user_management/*') ? 'display: block' : ''}}">
             <li class="{{Request::is('user_management/permission/*') ? 'current-page' : ''}}"><a href="{{route('userManagement.permission.index')}}">Permissions</a></li>
             <li class="{{Request::is('user_management/role/*') ? 'current-page' : ''}}"><a href="{{route('userManagement.role.index')}}">Roles</a></li>
-            <li><a href="index3.html">Users</a></li>
+            <li class="{{Request::is('user_management/user/*') ? 'current-page' : ''}}"><a href="{{route('userManagement.user.index')}}">Users</a></li>
           </ul>
         </li>
         

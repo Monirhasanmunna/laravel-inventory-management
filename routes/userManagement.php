@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\UserManagement\PermissionController;
 use App\Http\Controllers\Backend\UserManagement\PermissionInRoleController;
 use App\Http\Controllers\Backend\UserManagement\RoleController;
+use App\Http\Controllers\Backend\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,6 +41,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
 
+        Route::group(['as'=>'user.','prefix'=>'user'],function(){
+            Route::get('/index',[UserController::class,'index'])->name('index');
+            Route::get('/create',[UserController::class,'create'])->name('create');
+            Route::post('/store',[UserController::class,'store'])->name('store');
+            Route::get('/edit/{id}',[UserController::class,'edit'])->name('edit');
+            Route::put('/update/{id}',[UserController::class,'update'])->name('update');
+            Route::put('/destroy/{id}',[UserController::class,'destroy'])->name('destroy');
+        });
 
     });
 
