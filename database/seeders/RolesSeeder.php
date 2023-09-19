@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesSeeder extends Seeder
@@ -20,5 +21,9 @@ class RolesSeeder extends Seeder
                 'name' => $role
             ]);
         }
+
+        $permissions = Permission::all();
+        $admin = Role::where('name','Admin')->first();
+        $admin->syncPermissions($permissions);
     }
 }
