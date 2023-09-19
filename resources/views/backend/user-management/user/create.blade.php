@@ -8,7 +8,13 @@
     <div class="col-md-12 col-sm-12  animation">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Add User<small>add a user</small></h2>
+            <h2>
+              @if (!isset($user))
+                Add User<small>add a user</small>
+                @else
+                Edit User<small>edit a user</small>
+              @endif
+            </h2>
 
             <div class="text-right">
                 <a href="{{route('userManagement.user.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left mr-2" style="font-size: 17px;"></i>Back</a>
@@ -17,15 +23,22 @@
           </div>
 
           <div class="x_content">
-            <form id="demo-form" action="{{route('userManagement.user.store')}}" method="Post" enctype="multipart/form-data">
+            <form id="demo-form" action="{{!@$user ? route('userManagement.user.store') : route('userManagement.user.update',$user->id)}}" method="Post" enctype="multipart/form-data">
               @csrf
+              @if (isset($user))
+                  @method('PUT')
+              @endif
               <div class="row mb-3">
 
                 <div class="col-4">
                     <label for="heard">Roles Name *:</label>
                     <select id="heard" class="form-control form-control @error('role') is-invalid @enderror" name="role">
                       @foreach ($roles as $role)
-                          <option value="{{$role->id}}">{{$role->name}}</option>
+                          <option value="{{$role->id}}"
+                            @if (isset($user))
+                                {{$user->roles[0]->id == $role->id ? 'selected' : ''}}
+                            @endif 
+                            >{{$role->name}}</option>
                       @endforeach
                     </select>
                 </div>
@@ -33,7 +46,7 @@
 
                 <div class="col-4 ">
                   <label for="fullname">User Name * :</label>
-                  <input type="text" id="fullname" class="form-control" name="name" class="@error('name') is-invalid @enderror">
+                  <input type="text" id="fullname" class="form-control" name="name" value="{{$user->name ?? ''}}" class="@error('name') is-invalid @enderror">
                   @error('name')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -41,7 +54,7 @@
 
                 <div class="col-4">
                   <label for="fullname">Email * :</label>
-                  <input type="email" id="fullname" class="form-control" name="email" class="@error('email') is-invalid @enderror">
+                  <input type="email" id="fullname" class="form-control" value="{{$user->email ?? ''}}" name="email" class="@error('email') is-invalid @enderror">
                   @error('email')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -66,7 +79,7 @@
 
                 <div class="col-4 mt-3">
                   <label for="fullname">Avatar :</label>
-                  <input class="form-control dropify" id="avatar" data-default-file="{{isset($user) ? asset('storage/users/'.$user->avatar) : ''}}" name="avatar" type="file"
+                  <input class="form-control dropify" id="avatar" data-default-file="{{isset($user) ? asset($user->avatar) : ''}}" name="avatar" type="file"
                   class="@error('avatar') is-invalid @enderror">
   
                   @error('avatar')

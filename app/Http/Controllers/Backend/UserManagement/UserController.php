@@ -44,11 +44,11 @@ class UserController extends Controller
 
         $role = Role::find($request->role);
 
-       $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ])->assignRole($role);
+        $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ])->assignRole($role);
 
 
         if($request->file('avatar')){
@@ -72,7 +72,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $roles = Role::all();
+        $user = User::find($id);
+        return view('backend.user-management.user.create',compact('roles','user'));
     }
 
     /**
@@ -80,7 +82,33 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'role'          => 'required',
+            'name'          => 'required',
+            'email'         => 'required',
+            'password'      => '',
+            'c-password'    => 'same:password',
+        ]);
+
+        $role = Role::find($request->role);
+
+        $user = User::find($id);
+
+        $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password ? bcrypt($request->password) : $user->password,
+            ]);
+        
+        $user->syncRoles($request->role);
+
+
+        if($request->file('avatar')){
+            $this->upload_file($request->avatar, $user, 'avatar', 'user');
+        }
+
+        toastr()->success('User Updated');
+        return to_route('userManagement.user.index');
     }
 
     /**
@@ -88,6 +116,14 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       $user = User::find($id);
+       // <!-- delete file if exist -->
+       if (file_exists($user->avatar)){
+            unlink($user->avatar);
+        }
+
+        $user->delete();
+        toastr()->success('User Deleted');
+        return redirect()->back();
     }
 }
