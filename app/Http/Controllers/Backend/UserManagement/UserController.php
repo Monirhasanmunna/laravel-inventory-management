@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend\UserManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\FileSaver;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    use FileSaver;
     /**
      * Display a listing of the resource.
      */
@@ -42,11 +44,16 @@ class UserController extends Controller
 
         $role = Role::find($request->role);
 
-        User::create([
+       $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ])->assignRole($role);
+
+
+        if($request->file('avatar')){
+            $this->uploadFileWithResize($request->avatar, $user, 'avatar', 'user',250,250);
+        }
 
         toastr()->success('User Created');
         return to_route('userManagement.user.index');

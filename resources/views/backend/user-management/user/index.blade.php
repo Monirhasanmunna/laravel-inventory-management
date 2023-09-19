@@ -19,6 +19,7 @@
                 <thead>
                   <tr class="headings">
                     <th class="column-title text-center" width='5%'>SL </th>
+                    <th class="column-title text-center" width='5%'>Image</th>
                     <th class="column-title">Name</th>
                     <th class="column-title">Role</th>
                     <th class="column-title no-link last text-center" width='7%'><span class="nobr">Action</span></th>
@@ -29,6 +30,7 @@
                     @foreach ($users as $user)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
+                            <td><img style="height: 50px;width:50px;border-radius:50%;" src="{{asset($user->avatar)}}" alt="{{$user->avatar}}"></td>
                             <td>{{$user->name}}</td>
                             <td>
                               @foreach ($user->roles as $role)
