@@ -80,7 +80,7 @@
                     <div class="title-right pt-4">
                       <h4>Currencies</h4>
                       <p>Manage various types of currencies that you are going to use in the system.</p>
-                      <a href="#">Currencies <i class="fa-solid fa-arrow-right"></i></a>
+                      <a href="{{route('setup.currency.index')}}">Currencies <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                   </div>
 
