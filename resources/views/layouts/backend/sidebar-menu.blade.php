@@ -124,6 +124,12 @@
         </li>
         @endcan
 
+        <h3>Accounts</h3>
+
+        @can('setup')
+        <li class="{{Request::is('setup/*') ? 'current-page' : ''}}"><a href="{{route('setup.index')}}"><i class="fas fa-cogs"></i> Setup</a></li>  
+        @endcan
+
       </ul>
     </div>
   </div>

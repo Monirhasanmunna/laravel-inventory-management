@@ -74,5 +74,15 @@ class PermissionsSeeder extends Seeder
                 'group_name' => 'inventory'
             ]);
         }
+
+
+        $setups = ['setup','setup.general','setup.currencies','setup.units','setup.vat','setup.brand','setup.payment.methods'];
+
+        foreach ($setups as $key => $setup) {
+            Permission::updateOrCreate([
+                'name' => $setup,
+                'group_name' => 'setup'
+            ]);
+        }
     }
 }
