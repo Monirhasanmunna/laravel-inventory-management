@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UnitSeeder::class);
         $this->call(CurrencySeeder::class);
         $this->call(VatSeeder::class);
+        $this->call(BrandSeeder::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\SetupManagement\BrandController;
 use App\Http\Controllers\Backend\SetupManagement\CurrencyController;
 use App\Http\Controllers\Backend\SetupManagement\SetupController;
 use App\Http\Controllers\backend\SetupManagement\UnitController;
@@ -41,6 +42,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('edit/{id}',[VatController::class,'edit'])->name('edit');
             Route::put('update/{id}',[VatController::class,'update'])->name('update');
             Route::put('destroy/{id}',[VatController::class,'destroy'])->name('destroy');
+        });
+
+        // brand route in setup module
+        Route::group(['as'=>'brand.','prefix'=>'brand'],function(){
+            Route::get('index',[BrandController::class,'index'])->name('index');
+            Route::get('create',[BrandController::class,'create'])->name('create');
+            Route::post('store',[BrandController::class,'store'])->name('store');
+            Route::get('edit/{id}',[BrandController::class,'edit'])->name('edit');
+            Route::put('update/{id}',[BrandController::class,'update'])->name('update');
+            Route::put('destroy/{id}',[BrandController::class,'destroy'])->name('destroy');
         });
     });
 });

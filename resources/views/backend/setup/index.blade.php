@@ -137,7 +137,7 @@
                     <div class="title-right pt-4">
                       <h4>Brands</h4>
                       <p>Manage brands that you're going to use in the system.</p>
-                      <a href="#">Brands <i class="fa-solid fa-arrow-right"></i></a>
+                      <a href="{{route('setup.brand.index')}}">Brands <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                   </div>
 
