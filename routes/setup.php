@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\SetupManagement\CurrencyController;
 use App\Http\Controllers\Backend\SetupManagement\SetupController;
 use App\Http\Controllers\backend\SetupManagement\UnitController;
+use App\Http\Controllers\Backend\SetupManagement\VatController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,6 +31,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('edit/{id}',[CurrencyController::class,'edit'])->name('edit');
             Route::put('update/{id}',[CurrencyController::class,'update'])->name('update');
             Route::put('destroy/{id}',[CurrencyController::class,'destroy'])->name('destroy');
+        });
+
+        // vat route in setup module
+        Route::group(['as'=>'vat.','prefix'=>'vat'],function(){
+            Route::get('index',[VatController::class,'index'])->name('index');
+            Route::get('create',[VatController::class,'create'])->name('create');
+            Route::post('store',[VatController::class,'store'])->name('store');
+            Route::get('edit/{id}',[VatController::class,'edit'])->name('edit');
+            Route::put('update/{id}',[VatController::class,'update'])->name('update');
+            Route::put('destroy/{id}',[VatController::class,'destroy'])->name('destroy');
         });
     });
 });

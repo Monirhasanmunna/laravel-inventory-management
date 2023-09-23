@@ -118,7 +118,7 @@
                     <div class="title-right pt-4">
                       <h4>VAT Rates</h4>
                       <p>Manage VAT rates for VAT management that you're going to use in the system.</p>
-                      <a href="#">VAT Rates <i class="fa-solid fa-arrow-right"></i></a>
+                      <a href="{{route('setup.vat.index')}}">VAT Rates <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                   </div>
 
