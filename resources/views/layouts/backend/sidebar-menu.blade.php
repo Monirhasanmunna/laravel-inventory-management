@@ -101,7 +101,7 @@
             @endcan
 
             @can('product.list')
-            <li><a href="index3.html">Product List</a></li>
+            <li class="{{Request::is('product/*') ? 'current-page' : ''}}"><a href="{{route('product.index')}}">Product List</a></li>
             @endcan
 
             @can('product.barcode')
