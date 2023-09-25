@@ -38,7 +38,7 @@
 
                 <div class="col-4">
                   <label for="item_code">Item Code * :</label>
-                  <input type="text" id="item_code" readonly class="form-control" name="item_code" class="@error('item_code') is-invalid @enderror">
+                  <input type="text" id="item_code" readonly class="form-control" value="{{$productCode}}" name="item_code" class="@error('item_code') is-invalid @enderror">
                   @error('item_code')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -83,10 +83,10 @@
 
                 <div class="col-4 mt-3">
                   <label for="vat">VAT *:</label>
-                  <select id="vat" class="form-control @error('vat_id') is-invalid @enderror js-example-basic-single" name="vat_id">
+                  <select id="vat" class="form-control @error('vat_id') is-invalid @enderror js-example-basic-single" name="vat_rate">
                     <option hidden selected>Choose a VAT</option>
                     @foreach ($vats as $vat)
-                    <option value="{{$vat->id}}">{{$vat->name}}</option>
+                    <option value="{{$vat->rate}}">{{$vat->name}}</option>
                     @endforeach
                 </select>
                 </div>
@@ -204,6 +204,33 @@
         }
       });
     });
+
+
+    function calculationSellingPrice(){
+      let regularPrice = $("#regular_price").val();
+      let vatRate      = $("#vat").val();
+      let discountRate = $("#discount").val();
+      let vatType      = $("#vat_type").val();
+      let calculateSellingPrice = parseInt(regularPrice);
+
+      vatType == 'exclusive' ? calculateSellingPrice = calculateSellingPrice + (parseInt(regularPrice) / 100) * parseInt(vatRate) : calculateSellingPrice;
+      
+      let discountAmmount = (calculateSellingPrice/100)* parseInt(discountRate);
+      discountAmmount ? calculateSellingPrice = calculateSellingPrice - discountAmmount : calculateSellingPrice;
+
+      $("#selling_price").val(calculateSellingPrice);
+    }
+    
+
+    $("#vat_type , #vat").change(function(){
+      calculationSellingPrice();
+    });
+
+    $("#regular_price , #discount").keyup(function(){
+      calculationSellingPrice();
+    });
+
+
   });
 </script>
     

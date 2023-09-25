@@ -16,13 +16,13 @@ return new class extends Migration
             $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade');
             $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
-            $table->unsignedBigInteger('vat_id')->nullable();
+            $table->bigInteger('vat_rate')->nullable();
             $table->enum('vat_type',['exclusive','inclusive']);
             $table->string('name');
             $table->string('model');
             $table->string('item_code')->unique();
             $table->string('regular_price');
-            $table->string('discount');
+            $table->string('discount')->nullable();
             $table->string('selling_price');
             $table->string('note')->nullable();
             $table->string('alert_quantity')->nullable();

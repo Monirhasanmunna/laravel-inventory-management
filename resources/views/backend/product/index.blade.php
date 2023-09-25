@@ -1,5 +1,19 @@
 @extends('app')
+@push('css')
+    <style>
+      .no-preview{
+        width: 70px;
+        height: 70px;
+        border-radius: 5px;
+        background-color: #a4a4a4;
+        padding-top: 28px;
+      }
 
+      .no-preview small{
+        font-size: 11px;
+      }
+    </style>
+@endpush
 @section('content')
 <div class="row">
     <div class="col-md-12 col-sm-12 animation">
@@ -19,6 +33,7 @@
                 <thead>
                   <tr class="headings">
                     <th class="column-title text-center" width='5%'>SL </th>
+                    <th class="column-title text-center" width='7%'>Image</th>
                     <th class="column-title">Name</th>
                     <th class="column-title">Code</th>
                     <th class="column-title">Category</th>
@@ -31,29 +46,42 @@
                 </thead>
 
                 <tbody>
-                    {{-- @foreach ($categories as $category)
+                    @foreach ($products as $product)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{$category->name}}</td>
-                            <td>{{$category->note}}</td>
+                            @if (isset($product->image))
+                              <td><img style="height: 70px;width:70px;border-radius:5px;" src="{{asset($product->image)}}" alt="{{$product->image}}"></td>
+                            @else
+                              <td>
+                                <div class="no-preview text-center">
+                                  <small>No Preview</small>
+                                </div>
+                              </td>
+                            @endif
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->item_code}}</td>
+                            <td>{{$product->subCategory->category->name}}</td>
+                            <td>{{$product->model}}</td>
+                            <td>{{$product->unit->code}}</td>
+                            <td>{{$product->selling_price}}</td>
                             <td>
-                                @if ($category->status == 'active')
+                                @if ($product->status == 'active')
                                     <span class="badge badge-primary" style="font-size: 11px">Active</span>
                                 @else
                                     <span class="badge badge-danger" style="font-size: 11px">Inactive</span>
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{route('product-category.edit',$category->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="javascript:void(0)" onclick="deleteItem({{$category->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                <a href="{{route('product.edit',$product->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="javascript:void(0)" onclick="deleteItem({{$product->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
                             </td>
 
-                            <form action="{{route('product-category.destroy',$category->id)}}" method="POST" class="d-none deleteForm-{{$category->id}}">
+                            <form action="{{route('product.destroy',$product->id)}}" method="POST" class="d-none deleteForm-{{$product->id}}">
                               @method('PUT')
                               @csrf
                             </form>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
               </table>
             </div>
