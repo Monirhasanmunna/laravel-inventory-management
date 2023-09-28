@@ -86,6 +86,33 @@
         @endcan
 
 
+        <h3>Cashbook</h3>
+
+        @can('products')
+        <li class="{{Request::is('cashbook/*') ? 'active' : ''}}"><a><i class="fa-solid fa-boxes-stacked"></i> Cashbook <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu" style="{{Request::is('cashbook/*') ? 'display: block' : ''}}">
+
+            @can('cashbook.accounts')
+            <li class="{{Request::is('cashbook/accounts/*') ? 'current-page' : ''}}"><a href="{{route('accounts.index')}}">Accounts</a></li>
+            @endcan
+
+            @can('cashbook.balance.adjustment')
+            <li class="{{Request::is('cashbook/balance/*') ? 'current-page' : ''}}"><a href="{{route('balance.index')}}">Balance Adjustments</a></li>
+            @endcan
+
+            @can('cashbook.balance.transfer')
+            <li class="{{Request::is('cashbook/balance-transfer*') ? 'current-page' : ''}}"><a href="{{route('balance-transfer.index')}}">Product List</a></li>
+            @endcan
+
+            @can('cashbook.transaction.history')
+            <li class="{{Request::is('cashbook/transaction*') ? 'current-page' : ''}}"><a href="{{route('transaction.index')}}">Product List</a></li>
+            @endcan
+            
+          </ul>
+        </li>
+        @endcan
+
+
         <h3>Inventory</h3>
 
         @can('products')

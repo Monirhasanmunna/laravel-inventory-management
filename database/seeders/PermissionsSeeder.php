@@ -84,5 +84,15 @@ class PermissionsSeeder extends Seeder
                 'group_name' => 'setup'
             ]);
         }
+
+
+        $cashbooks = ['cashbook','cashbook.accounts','cashbook.balance.adjustment','cashbook.balance.transfer','cashbook.transaction.history'];
+
+        foreach ($cashbooks as $key => $item) {
+            Permission::updateOrCreate([
+                'name' => $item,
+                'group_name' => 'cashbook'
+            ]);
+        }
     }
 }

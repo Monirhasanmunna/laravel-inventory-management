@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CurrencySeeder::class);
         $this->call(VatSeeder::class);
         $this->call(BrandSeeder::class);
+        $this->call(AccountsSeeder::class);
     }
 }
