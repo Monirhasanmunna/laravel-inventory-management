@@ -48,6 +48,7 @@ class AccountController extends Controller
             'account_number'    => $request->account_number,
             'date'              => $request->date,
             'note'              => $request->note,
+            'status'            => $request->status
         ]);
 
 
@@ -90,6 +91,7 @@ class AccountController extends Controller
             'account_number'    => $request->account_number,
             'date'              => $request->date,
             'note'              => $request->note,
+            'status'            => $request->status
         ]);
 
 

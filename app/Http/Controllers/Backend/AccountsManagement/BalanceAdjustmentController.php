@@ -25,13 +25,13 @@ class BalanceAdjustmentController extends Controller
      */
     public function create()
     {
-        $accounts = Account::all();
+        $accounts = Account::where('status','active')->orderBy('id','DESC')->get();
         return view('backend.cashbooks.balance_adjustment.create',compact('accounts'));
     }
 
     public function AccountInfo($id)
     {
-        return Account::find($id);
+        return Account::where('status','active')->where('id',$id)->first();
     }
 
     /**
