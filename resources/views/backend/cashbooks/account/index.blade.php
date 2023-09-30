@@ -44,7 +44,7 @@
                             <td>{{$account->bank_name}}</td>
                             <td>{{$account->branch_name}}</td>
                             <td>{{$account->account_number}}</td>
-                            <td>ট{{$account->adjustedBalance->ammount ?? 0}}</td>
+                            <td>ট{{$account->total_ammount ?? 0}}</td>
                             <td>{{$account->date}}</td>
                             <td>
                                 @if ($account->status == 'active')

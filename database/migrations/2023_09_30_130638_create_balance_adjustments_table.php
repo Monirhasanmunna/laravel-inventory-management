@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('balance_adjustments', function (Blueprint $table) {
             $table->id();
-            $table->string('bank_name');
-            $table->string('branch_name')->nullable();
-            $table->string('account_number')->nullable();
-            $table->bigInteger('total_ammount')->nullable();
+            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
+            $table->enum('type',['addBalance','removeBalance']);
+            $table->bigInteger('ammount');
             $table->date('date')->default(date('Y-m-d'));
             $table->enum('status',['active','inactive'])->default('active');
             $table->text('note')->nullable();
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('balance_adjustments');
     }
 };

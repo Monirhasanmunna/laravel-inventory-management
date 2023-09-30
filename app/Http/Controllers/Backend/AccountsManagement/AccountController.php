@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend\AccountsManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use App\Rules\AccountNumberRule;
+use App\Rules\BranchCheckRule;
 
 class AccountController extends Controller
 {
@@ -14,7 +16,7 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = Account::all();
-        return view('backend.account.index',compact('accounts'));
+        return view('backend.cashbooks.account.index',compact('accounts'));
     }
 
     /**
@@ -22,7 +24,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return view('backend.account.create');
+        return view('backend.cashbooks.account.create');
     }
 
     /**
@@ -32,10 +34,13 @@ class AccountController extends Controller
     {
         $request->validate([
             'bank_name'     => 'required|unique:accounts',
-            'branch_name'   => 'required',
-            'account_number'=> 'required|unique:accounts',
+            'account_number'=> new AccountNumberRule,
             'date'          => 'required',
+            'type'          => 'required',
+            'branch_name'   => new BranchCheckRule
         ]);
+
+        // return $request->all();
 
         Account::create([
             'bank_name'         => $request->bank_name,
@@ -64,7 +69,7 @@ class AccountController extends Controller
     public function edit(string $id)
     {
         $account = Account::find($id);
-        return view('backend.account.edit',compact('account'));
+        return view('backend.cashbooks.account.edit',compact('account'));
     }
 
     /**

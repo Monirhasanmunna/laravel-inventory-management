@@ -18,12 +18,20 @@
               @csrf
               
               <div class="row">
-                <div class="col-12 mb-3">
+                <div class="col-6 mb-3">
                   <label for="name">Bank Name * :</label>
                   <input type="text" id="name" class="form-control" name="bank_name" class="@error('bank_name') is-invalid @enderror">
                   @error('bank_name')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
+                </div>
+
+                <div class="col-6 mb-3">
+                  <label for="type">Type *:</label>
+                  <select id="type" class="form-control form-control @error('status') is-invalid @enderror" name="type">
+                    <option value="bank">Bank</option>
+                    <option value="cash">Cash</option>
+                </select>
                 </div>
 
                 <div class="col-6 mb-3">

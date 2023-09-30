@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Account extends Model
+class BalanceAdjustment extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function Balances(){
-        return $this->hasMany(BalanceAdjustment::class);
+
+    public function Account(){
+        return $this->belongsTo(Account::class);
     }
 }

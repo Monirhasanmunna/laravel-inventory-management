@@ -101,11 +101,11 @@
             @endcan
 
             @can('cashbook.balance.transfer')
-            <li class="{{Request::is('cashbook/balance-transfer*') ? 'current-page' : ''}}"><a href="{{route('balance-transfer.index')}}">Product List</a></li>
+            <li class="{{Request::is('cashbook/balance-transfer*') ? 'current-page' : ''}}"><a href="{{route('balance-transfer.index')}}">Balance Transfer</a></li>
             @endcan
 
             @can('cashbook.transaction.history')
-            <li class="{{Request::is('cashbook/transaction*') ? 'current-page' : ''}}"><a href="{{route('transaction.index')}}">Product List</a></li>
+            <li class="{{Request::is('cashbook/transaction*') ? 'current-page' : ''}}"><a href="{{route('transaction.index')}}">Transaction History</a></li>
             @endcan
             
           </ul>
