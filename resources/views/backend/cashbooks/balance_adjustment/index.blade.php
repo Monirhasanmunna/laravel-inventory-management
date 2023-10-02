@@ -53,13 +53,13 @@
                             </td>
                             <td class="text-center">
                                 <a href="{{route('balance.edit',$adjustment->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="javascript:void(0)" onclick="deleteItem({{$adjustment->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                {{-- <a href="javascript:void(0)" onclick="deleteItem({{$adjustment->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a> --}}
                             </td>
 
-                            <form action="{{route('balance.destroy',$adjustment->id)}}" method="POST" class="d-none deleteForm-{{$adjustment->id}}">
+                            {{-- <form action="{{route('balance.destroy',$adjustment->id)}}" method="POST" class="d-none deleteForm-{{$adjustment->id}}">
                               @method('PUT')
                               @csrf
-                            </form>
+                            </form> --}}
                         </tr>
                     @endforeach
                 </tbody>
@@ -71,7 +71,7 @@
 </div>
 @endsection
 
-<script>
+{{-- <script>
   function deleteItem(id){
       Swal.fire({
       title: 'Are you sure?',
@@ -94,4 +94,4 @@
       });
       
   }
-</script>
+</script> --}}

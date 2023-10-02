@@ -19,7 +19,6 @@ class RemoveBalanceRule implements ValidationRule
         $ammount = request('ammount');
         $availableBalance = request('available_balance');
 
-        // dd($type);
         // check is ammount greater than availaleBalance?
         if($type == 'removeBalance' && $ammount > $availableBalance){
             //error message set
