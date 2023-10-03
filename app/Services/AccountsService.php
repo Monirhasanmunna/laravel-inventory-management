@@ -23,5 +23,19 @@ Class AccountsService{
     }
 
 
+    public function transferBalance($transfer)
+    {
+        $from_account   = Account::find($transfer->from_account_id);
+        $to_account     = Account::find($transfer->to_account_id);
+
+        $from_account->update([
+            'total_ammount' => $from_account->total_ammount - $transfer->ammount
+        ]);
+
+        $to_account->update([
+            'total_ammount' => $to_account->total_ammount + $transfer->ammount
+        ]);
+    }
+
 
 }

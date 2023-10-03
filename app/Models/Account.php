@@ -14,4 +14,14 @@ class Account extends Model
     public function Balances(){
         return $this->hasMany(BalanceAdjustment::class);
     }
+
+    public function tranferForm(){
+        return $this->hasMany(BalanceTransfer:: class, 'from_account_id');
+    }
+
+    public function tranferTo(){
+        return $this->hasMany(BalanceTransfer:: class, 'to_account_id');
+    }
+
+    
 }

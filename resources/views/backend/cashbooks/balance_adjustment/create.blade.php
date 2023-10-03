@@ -45,7 +45,7 @@
 
                 <div class="col-6 mb-3">
                   <label for="ammount">Ammount * :</label>
-                  <input type="number" id="ammount" class="form-control"  name="ammount" class="@error('ammount') is-invalid @enderror">
+                  <input type="number" id="ammount" class="form-control" value="{{old('ammount')}}"  name="ammount" class="@error('ammount') is-invalid @enderror">
                   @error('ammount')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -53,7 +53,7 @@
 
                 <div class="col-6 mb-3">
                   <label for="date">Date * :</label>
-                  <input type="date" id="date" class="form-control" name="date" value="{{ date('Y-m-d') }}" class="@error('date') is-invalid @enderror">
+                  <input type="date" id="date" class="form-control" name="date" value="{{ old('date') ?? date('Y-m-d') }}" class="@error('date') is-invalid @enderror">
                   @error('date')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
@@ -64,14 +64,14 @@
                   <select id="heard" class="form-control @error('status') is-invalid @enderror" name="status">
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
-                </select>
+                  </select>
                 </div>
               </div>
 
               <div class="row mb-3">
                 <div class="col-12">
                   <label for="message">Note (100 chars max) :</label>
-                    <textarea id="message" class="form-control form-control" name="note" class="@error('note') is-invalid @enderror"></textarea>
+                    <textarea id="message" class="form-control form-control" name="note" class="@error('note') is-invalid @enderror">{{old('note')}}</textarea>
                     @error('note')
                       <span class="text-danger">{{ $message }}</span>
                     @enderror
