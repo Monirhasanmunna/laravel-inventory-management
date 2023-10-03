@@ -74,15 +74,49 @@ class BalanceTransferController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $accounts = Account::all();
+        $transfer = BalanceTransfer::find($id);
+
+        return view('backend.cashbooks.balance-transfer.edit',compact('transfer','accounts'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id , AccountsService $account)
     {
-        //
+        $request->validate([
+            'transfer_reason'   => 'required',
+            'from_account_id'   => 'required',
+            'to_account_id'     => ['required', new isSameAccount],
+            'ammount'           => ['required', new RemoveBalanceRule],
+            'status'            => 'required',
+        ]);
+
+
+        $transfer = BalanceTransfer::find($id);
+
+        // old ammount deducted
+        $accountBalance = Account::find($request->from_account_id);
+        $accountBalance->total_ammount = $accountBalance->total_ammount + $transfer->ammount;
+        $accountBalance->save();
+        $transfer->delete();
+
+        $transfer = BalanceTransfer::create([
+            'from_account_id'   => $request->from_account_id,
+            'to_account_id'     => $request->to_account_id,
+            'transfer_reason'   => $request->transfer_reason,
+            'ammount'           => $request->ammount,
+            'status'            => $request->status,
+            'note'              => $request->note,
+            'date'              => $request->date,
+        ]);
+
+        // transfer balance service
+        $account->transferBalance($transfer);
+
+        toastr()->success('Balance Updated Successfully');
+        return to_route('balance-transfer.index');
     }
 
     /**

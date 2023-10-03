@@ -8,7 +8,7 @@
     <div class="col-md-12 col-sm-12  animation">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Create Adjustment</h2>
+            <h2>Edit a Adjustment</h2>
 
             <div class="text-right">
                 <a href="{{route('balance.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left mr-2" style="font-size: 17px;"></i>Back</a>
