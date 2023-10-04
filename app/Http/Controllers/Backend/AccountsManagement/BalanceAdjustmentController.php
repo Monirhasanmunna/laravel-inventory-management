@@ -99,23 +99,13 @@ class BalanceAdjustmentController extends Controller
         ]);
 
 
-        $adjustment = BalanceAdjustment::find($id);
+        $oldAdjustment = BalanceAdjustment::find($id);
+        $account = Account::find($oldAdjustment->account_id);
+       
+        //old balance adjustment
+        $accounts->oldBalanceUpdate($oldAdjustment, $account);
 
-        // old ammount deducted
-        $account = Account::find($adjustment->account_id);
-
-        if($adjustment->type == 'addBalance' && $request->type == 'removeBalance'){
-            $account->total_ammount = $account->total_ammount - $adjustment->ammount;
-        }
-
-        if($adjustment->type == 'removeBalance' && $request->type == 'addBalance'){
-            $account->total_ammount = $account->total_ammount + $adjustment->ammount;
-        }
-        
-        $account->save();
-
-
-        $adjustment->update([
+        $adjustment = BalanceAdjustment::create([
             'account_id'  => $request->account_id,
             'type'        => $request->type,
             'ammount'     => $request->ammount,

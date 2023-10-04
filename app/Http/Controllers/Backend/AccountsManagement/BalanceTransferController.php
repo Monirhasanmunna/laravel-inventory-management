@@ -83,7 +83,7 @@ class BalanceTransferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id , AccountsService $account)
+    public function update(Request $request, string $id , AccountsService $accounts)
     {
         $request->validate([
             'transfer_reason'   => 'required',
@@ -94,13 +94,12 @@ class BalanceTransferController extends Controller
         ]);
 
 
-        $transfer = BalanceTransfer::find($id);
-
+        $oldAdjustment = BalanceTransfer::find($id);
+        $oldAdjustment['type'] = 'removeBalance';
+        $account = Account::find($request->from_account_id);
+        
         // old ammount deducted
-        $accountBalance = Account::find($request->from_account_id);
-        $accountBalance->total_ammount = $accountBalance->total_ammount + $transfer->ammount;
-        $accountBalance->save();
-        $transfer->delete();
+        $accounts->oldBalanceUpdate($oldAdjustment , $account);
 
         $transfer = BalanceTransfer::create([
             'from_account_id'   => $request->from_account_id,
@@ -113,7 +112,7 @@ class BalanceTransferController extends Controller
         ]);
 
         // transfer balance service
-        $account->transferBalance($transfer);
+        $accounts->transferBalance($transfer);
 
         toastr()->success('Balance Updated Successfully');
         return to_route('balance-transfer.index');

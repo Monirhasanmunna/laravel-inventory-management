@@ -23,6 +23,21 @@ Class AccountsService{
     }
 
 
+    public function oldBalanceUpdate($oldAdjustment, $account)
+    {
+        if($oldAdjustment->type == 'addBalance'){
+            $account->total_ammount = $account->total_ammount - $oldAdjustment->ammount;
+        }
+        
+        if($oldAdjustment->type == 'removeBalance'){
+            $account->total_ammount = $account->total_ammount + $oldAdjustment->ammount;
+        }
+        
+        $account->save();
+        $oldAdjustment->delete();
+    }
+
+
     public function transferBalance($transfer)
     {
         $from_account   = Account::find($transfer->from_account_id);
