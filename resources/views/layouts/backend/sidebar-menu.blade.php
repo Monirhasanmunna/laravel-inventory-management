@@ -116,15 +116,15 @@
         <h3>Inventory</h3>
 
         @can('products')
-        <li class="{{Request::is('product/*') ? 'active' : ''}}"><a><i class="fa-solid fa-boxes-stacked"></i> Products <span class="fa fa-chevron-down"></span></a>
+        <li class="{{Request::is(['product/*','/categories/*','/sub_categories/*']) ? 'active' : ''}}"><a><i class="fa-solid fa-boxes-stacked"></i> Products <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu" style="{{Request::is('product/*') ? 'display: block' : ''}}">
 
             @can('product.categories')
-            <li class="{{Request::is('product/categories/*') ? 'current-page' : ''}}"><a href="{{route('product-category.index')}}">Categories</a></li>
+            <li class="{{Request::is('/categories/*') ? 'current-page' : ''}}"><a href="{{route('product-category.index')}}">Categories</a></li>
             @endcan
 
             @can('product.sub.categories')
-            <li class="{{Request::is('product/sub_categories/*') ? 'current-page' : ''}}"><a href="{{route('product-sub-category.index')}}">Sub Categories</a></li>
+            <li class="{{Request::is('/sub_categories/*') ? 'current-page' : ''}}"><a href="{{route('product-sub-category.index')}}">Sub Categories</a></li>
             @endcan
 
             @can('product.list')
@@ -151,9 +151,15 @@
         </li>
         @endcan
 
-        <h3>Accounts</h3>
+
+        @can('supplier')
+        <h3>People</h3>
+        <li class="{{Request::is('suppliers/*') ? 'current-page' : ''}}"><a href="{{route('suppliers.index')}}"><i class="fa-solid fa-people-carry-box"></i> Suppliers</a></li>  
+        @endcan
+        
 
         @can('setup')
+        <h3>Accounts</h3>
         <li class="{{Request::is('setup/*') ? 'current-page' : ''}}"><a href="{{route('setup.index')}}"><i class="fas fa-cogs"></i> Setup</a></li>  
         @endcan
 

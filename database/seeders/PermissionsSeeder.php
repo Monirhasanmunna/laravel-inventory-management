@@ -94,5 +94,15 @@ class PermissionsSeeder extends Seeder
                 'group_name' => 'cashbook'
             ]);
         }
+
+
+        $suppliers = ['supplier'];
+
+        foreach ($suppliers as $key => $item) {
+            Permission::updateOrCreate([
+                'name' => $item,
+                'group_name' => 'supplier'
+            ]);
+        }
     }
 }
