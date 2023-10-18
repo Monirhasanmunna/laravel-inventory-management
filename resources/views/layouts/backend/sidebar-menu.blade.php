@@ -52,11 +52,11 @@
         @endcan
 
         @can('purchase')
-        <li><a><i class="fa-solid fa-bucket"></i> Purchases <span class="fa fa-chevron-down"></span></a>
-          <ul class="nav child_menu">
+        <li class="{{Request::is('purchase/*') ? 'active' : ''}}"><a><i class="fa-solid fa-bucket"></i> Purchases <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu" style="{{Request::is('purchase/*') ? 'display: block' : ''}}">
 
             @can('purchase.list')
-            <li><a href="index.html">Purchases List</a></li>
+            <li class="{{Request::is('purchase/*') ? 'current-page' : ''}}"><a href="{{route('purchase.index')}}">Purchases List</a></li>
             @endcan
 
             @can('purchase.return.list')
