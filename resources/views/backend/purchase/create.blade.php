@@ -76,7 +76,7 @@
 
                 <div class="col-12 my-5 d-none" id="subtotal">
                     <div class="subtotal-wrapper">
-                      <table class="table table-info">
+                      <table class="table table-striped jambo_table bulk_action table-bordered">
                         <thead>
                           <tr>
                             <th scope="col">#</th>
@@ -84,7 +84,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Purchase Price</th>
-                            <th scope="col">Unit Cost</th>
+                            {{-- <th scope="col">Unit Cost</th> --}}
                             <th scope="col">Tax</th>
                             <th scope="col">Subtotal</th>
                             <th scope="col">Action</th>
@@ -135,6 +135,7 @@
                 </select>
                 </div>
 
+                
               </div>
 
               <div class="row mt-3">
@@ -162,17 +163,61 @@
 
 <script>
   $(document).ready(function(){
+    let i = 0;
     $("#product_id").change(function(){
       let id = $(this).val();
       $.ajax({
         url : `/purchase/product_details/${id}`,
         type : 'GET',
         success : (data)=>{
-          console.log(data);
+          i = i+1;
+          let html = `
+                <tr>
+                  <td>${i}</td>
+                  <td>${data.item_code}</td>
+                  <td width='15%'>${data.name}</td>
+                  <td><input type="number" class='form-control quantity' name='quantity[]'></td>
+                  <td><input type="number" class='form-control purchase_price' name='purchase_price[]'></td>
+                  <td width='10%'>${data.vat_rate}</td>
+                  <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal[]'></td>
+                  <td><a href="javascript:void(0)" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+          `
+
+          $('#t-body').append(html)
           $("#subtotal").removeClass('d-none');
         }
       });
     });
   });
+
+
+  $(document).on('keyup','.quantity',function(){
+    subtotalcalculation($(this));
+  });
+
+  $(document).on('change','.quantity',function(){
+    subtotalcalculation($(this));
+  });
+
+  $(document).on('keyup','.purchase_price',function(){
+    subtotalcalculation($(this));
+  });
+
+  $(document).on('change','.purchase_price',function(){
+    subtotalcalculation($(this));
+  });
+
+
+  function subtotalcalculation(input){
+    let row = input.closest('tr');
+    let quantity = row.find('.quantity').val();
+    let price = row.find('.purchase_price').val();
+    
+    let subtotal = parseInt(quantity) * parseInt(price);
+    row.find('.subtotal').val(subtotal);
+  }
+
 </script>
+
 @endpush
