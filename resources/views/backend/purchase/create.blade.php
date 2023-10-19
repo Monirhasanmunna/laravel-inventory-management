@@ -105,8 +105,8 @@
                         </div>
 
                         <div class="col-3 mt-3">
-                            <label for="vat">Purchase Tax *:</label>
-                            <select id="vat_id" class="form-control js-example-basic-single">
+                            <label for="tax_id">Purchase Tax *: (%)</label>
+                            <select id="tax_id" class="form-control js-example-basic-single">
                                 @foreach ($vats as $vat)
                                 <option value="{{$vat->id}}">{{$vat->name}}</option>
                                 @endforeach
@@ -115,7 +115,7 @@
 
                         <div class="col-3 mt-3">
                             <label for="total_tax">Total Tax * :</label>
-                            <input type="text" id="total_tax" readonly class="form-control" name="total_tax"
+                            <input type="number" id="total_tax" readonly class="form-control" name="total_tax"
                                 class="@error('total_tax') is-invalid @enderror">
                             @error('total_tax')
                             <span class="text-danger">{{ $message }}</span>
@@ -127,7 +127,7 @@
                         <div class="col-12 d-none px-2" id="costAddRow">
                             <div class="row">
                                 <div class="col-3 mt-3">
-                                    <label for="discount">Discount * :</label>
+                                    <label for="discount">Discount * : (%)</label>
                                     <input type="number" id="discount" class="form-control" name="discount"
                                         class="@error('discount') is-invalid @enderror">
                                     @error('discount')
@@ -232,6 +232,7 @@
 
 
 <script>
+    // product add
     $(document).ready(function () {
         let i = 0;
         $("#product_id").change(function () {
@@ -242,18 +243,17 @@
                 success: (data) => {
                     i = i + 1;
                     let html = `
-                <tr>
-                  <td>${i}</td>
-                  <td width='10%'>${data.item_code}</td>
-                  <td width='15%'>${data.name}</td>
-                  <td><input type="number" class='form-control quantity' name='quantity[]'></td>
-                  <td><input type="number" class='form-control purchase_price' name='purchase_price[]'></td>
-                  <td width='10%'>${data.vat_rate}</td>
-                  <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal[]'></td>
-                  <td><a href="javascript:void(0)" class="btn-sm btn-danger deleteBtn"><i class="fa-solid fa-trash"></i></a></td>
-                </tr>
-          `
-
+                            <tr>
+                            <td>${i}</td>
+                            <td width='10%'>${data.item_code}</td>
+                            <td width='15%'>${data.name}</td>
+                            <td><input type="number" class='form-control quantity' name='quantity[]'></td>
+                            <td><input type="number" class='form-control purchase_price' name='purchase_price[]'></td>
+                            <td width='10%'>${data.vat_rate}</td>
+                            <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal[]'></td>
+                            <td><a href="javascript:void(0)" class="btn-sm btn-danger deleteBtn"><i class="fa-solid fa-trash"></i></a></td>
+                            </tr>
+                        `
 
                     $('#t-body').append(html)
                     $("#productRow").removeClass('d-none');
@@ -264,6 +264,7 @@
     });
 
 
+    // sub total calculation
     $(document).on('keyup', '.quantity', function () {
         subtotalcalculation($(this));
 
@@ -293,6 +294,7 @@
     }
 
 
+    // total calculation
     let totalAmmount = 0;
 
     function totalCalculation() {
@@ -316,14 +318,76 @@
         })
         $("#totalAmmount").html(totalAmmount);
         $("#total").val(totalAmmount);
+        $("#net_total").val(totalAmmount);
     }
 
-
+    // item delete
     $(document).on('click', '.deleteBtn', function () {
         $(this).closest('tr').remove();
-        totalCalculation()
-    })
+        totalCalculation();
+    });
 
+
+    let discount = 0;
+    let transportCost = 0;
+    let tax = 0;
+
+    // tax calculation
+    $(document).on('change','#tax_id',function(){
+        let id = $(this).val();
+        $("#total_tax").val('');
+        $.ajax({
+            url : `/purchase/vat_details/${id}`,
+            type : "GET",
+            success : (data)=>{
+                tax = data.rate;
+                netTotal();
+            }
+        });
+    });
+
+
+    // calculation Net total 
+    $("#discount").change(function(){
+        discount = $(this).val();
+        discount == '' ? discount = 0 : discount;
+        netTotal();
+    });
+
+    $("#discount").keyup(function(){
+        discount = $(this).val();
+        discount == '' ? discount = 0 : discount;
+        netTotal();
+    });
+
+    $("#transport_cost").change(function(){
+        transportCost = $(this).val();
+        transportCost == '' ? transportCost = 0 : transportCost;
+        netTotal();
+
+    });
+
+    $("#transport_cost").keyup(function(){
+        transportCost = $(this).val();
+        transportCost == '' ? transportCost = 0 : transportCost;
+        netTotal();
+    });
+
+    function netTotal(){
+
+        let t_Ammount = parseInt(totalAmmount);
+        let taxRate = parseInt(tax);
+        let discountRate = parseInt(discount);
+        let transport_cost = parseInt(transportCost);
+
+        let totalTax = (t_Ammount/100)*taxRate;
+        let newNetAmmount = t_Ammount + totalTax;
+        newNetAmmount = newNetAmmount - (newNetAmmount/100)*discountRate;
+        newNetAmmount = newNetAmmount - transport_cost
+
+        $("#total_tax").val(totalTax);
+        $("#net_total").val(newNetAmmount);
+    }
 </script>
 
 @endpush

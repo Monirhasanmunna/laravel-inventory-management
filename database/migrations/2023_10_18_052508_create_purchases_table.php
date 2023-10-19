@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('account_id')->nullable();
+            $table->unsignedBigInteger('vat_id')->nullable();
             $table->string('po_reference')->nullable();
             $table->string('payment_terms')->nullable();
-            $table->string('purchase_tax')->nullable();
             $table->string('total_tax')->nullable();
             $table->string('discount')->nullable();
             $table->string('transport_cost')->nullable();

@@ -16,9 +16,11 @@ return new class extends Migration
             $table->foreignId('purchase_id')->constrained('purchases')->onDelete('cascade');
             $table->unsignedBigInteger('product_id')->nullable();
             $table->string('reason');
+            $table->bigInteger('quantity');
+            $table->bigInteger('price');
+            $table->bigInteger('subtotal');
             $table->date('date');
-            $table->enum('type',['debit','credit']);
-            $table->bigInteger('ammount');
+            // $table->enum('type',['debit','credit']);
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

@@ -37,6 +37,11 @@ class PurchaseController extends Controller
         return Product::find($id);
     }
 
+    public function vatDetailsById($id)
+    {
+        return Vat::find($id);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -14,4 +14,5 @@ Route::group(['as'=>'purchase.','prefix'=>'purchase'],function(){
 
     // ajax route
     Route::get('/product_details/{id}',[PurchaseController::class,'productDetailsById']);
+    Route::get('/vat_details/{id}',[PurchaseController::class,'vatDetailsById']);
 });
