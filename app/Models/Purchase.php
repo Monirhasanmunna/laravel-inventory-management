@@ -12,22 +12,19 @@ class Purchase extends Model
     protected $guarded = ['id'];
 
 
-
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
     }
     
-
     public function account()
     {
         return $this->belongsTo(Account::class);
     }
 
-    
     public function products()
     {
         return $this->belongsToMany(Product::class, 'purchase_product', 'purchase_id','product_id')
-        ->withPivot(['reason','date','type','ammount','status']);
+        ->withPivot(['quantity','price','subtotal']);
     }
 }

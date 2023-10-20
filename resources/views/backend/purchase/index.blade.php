@@ -19,13 +19,13 @@
                 <thead>
                   <tr class="headings">
                     <th class="column-title text-center" width='5%'>SL </th>
-                    <th class="column-title">Name</th>
                     <th class="column-title">PO Reference</th>
                     <th class="column-title">Date</th>
                     <th class="column-title">Supplier</th>
                     <th class="column-title">Subtotal</th>
-                    <th class="column-title">Transport</th>
+                    <th class="column-title">Tax</th>
                     <th class="column-title">Discount</th>
+                    <th class="column-title">Transport</th>
                     <th class="column-title">Net Total</th>
                     <th class="column-title">Total Paid</th>
                     <th class="column-title">Total Due</th>
@@ -35,35 +35,41 @@
                 </thead>
 
                 <tbody>
-                    {{-- @foreach ($products as $product)
+                    @foreach ($purchases as $purchase)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{$product->name}}</td>
-                            <td>{{$product->item_code}}</td>
-                            <td>{{$product->subCategory->category->name}}</td>
-                            <td>{{$product->model}}</td>
-                            <td>{{$product->unit->code}}</td>
-                            <td>{{$product->selling_price}}</td>
+                            <td>{{$purchase->po_reference}}</td>
+                            <td>{{$purchase->purchase_date}}</td>
+                            <td>{{$purchase->supplier->name}}</td>
+                            <td>Tk.{{$purchase->sub_total}}</td>
+                            <td>Tk.{{$purchase->total_tax}}</td>
+                            <td>{{$purchase->discount}}%</td>
+                            <td>Tk.{{$purchase->transport_cost}}</td>
+                            <td>Tk.{{$purchase->net_total}}</td>
+                            <td>Tk.{{$purchase->total_paid}}</td>
+                            <td>Tk.{{$purchase->due_ammount}}</td>
                             <td>
-                                @if ($product->status == 'active')
+                                @if ($purchase->status == 'active')
                                     <span class="badge badge-primary" style="font-size: 11px">Active</span>
                                 @else
                                     <span class="badge badge-danger" style="font-size: 11px">Inactive</span>
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{route('product.edit',$product->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="javascript:void(0)" onclick="deleteItem({{$product->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                <a href="{{route('purchase.edit',$purchase->id)}}" class="btn-sm btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="javascript:void(0)" onclick="deleteItem({{$purchase->id}})" class="btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
                             </td>
 
-                            <form action="{{route('product.destroy',$product->id)}}" method="POST" class="d-none deleteForm-{{$product->id}}">
+                            <form action="{{route('purchase.destroy',$purchase->id)}}" method="POST" class="d-none deleteForm-{{$purchase->id}}">
                               @method('PUT')
                               @csrf
                             </form>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
               </table>
+
+              {{-- {{$purchase->products}} --}}
             </div>
           </div>
         </div>

@@ -33,20 +33,28 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="supplier">Supplier *:</label>
-                            <select id="supplier_id" class="form-control js-example-basic-single">
+                            <select id="supplier_id" class="form-control js-example-basic-single" name="supplier_id" class="@error('supplier_id') is-invalid @enderror">
+                                <option selected disabled="disabled">Select Once</option>
                                 @foreach ($suppliers as $supplier)
                                 <option value="{{$supplier->id}}">{{$supplier->name}}</option>
                                 @endforeach
                             </select>
+                            @error('supplier_id')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="col-6">
                             <label for="product">Select Product *:</label>
-                            <select id="product_id" class="form-control js-example-basic-single">
+                            <select id="product_id" name="product" class="form-control js-example-basic-single" class="@error('product') is-invalid @enderror">
+                                <option selected disabled="disabled">Select Once</option>
                                 @foreach ($products as $product)
                                 <option value="{{$product->id}}">{{$product->name}}</option>
                                 @endforeach
                             </select>
+                            @error('product')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         {{-- product table start --}}
@@ -61,7 +69,6 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Purchase Price</th>
-                                            {{-- <th scope="col">Unit Cost</th> --}}
                                             <th scope="col">Tax</th>
                                             <th scope="col">Subtotal</th>
                                             <th scope="col">Action</th>
@@ -73,10 +80,9 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan='6' class='text-right' style="font-weight:bold;color:gray">Total
-                                                = </td>
+                                            <td colspan='6' class='text-right' style="font-weight:bold;color:gray">Total =</td>
                                             <td colspan='2' id='totalAmmount'></td>
-                                            <input type="hidden" id='total' name='total[]'>
+                                            <input type="hidden" id='total' name='sub_total'>
                                         </tr>
                                     </tfoot>
 
@@ -106,7 +112,8 @@
 
                         <div class="col-3 mt-3">
                             <label for="tax_id">Purchase Tax *: (%)</label>
-                            <select id="tax_id" class="form-control js-example-basic-single">
+                            <select id="tax_id" class="form-control js-example-basic-single" name="vat_id">
+                                <option selected disabled="disabled">Select Once</option>
                                 @foreach ($vats as $vat)
                                 <option value="{{$vat->id}}">{{$vat->name}}</option>
                                 @endforeach
@@ -156,6 +163,7 @@
                                 <div class="col-3 mt-3">
                                     <label for="payment">Add Payment? *:</label>
                                     <select id="payment" class="form-control">
+                                        <option hidden selected disabled="disabled">Select Once</option>
                                         <option value="yes">Yes</option>
                                         <option value="no">No</option>
                                     </select>
@@ -164,6 +172,57 @@
                         </div>
 
                         {{-- add cost row end --}}
+
+
+                        {{-- paymentSection start --}}
+
+                        <div class="col-12 px-2 d-none" id="paymentSection">
+                            <div class="row">
+                                <div class="col-6 mt-3">
+                                    <label for="account_id">Account *:</label>
+                                    <select id="account_id" class="form-control" name="account_id">
+                                        <option hidden selected disabled="disabled">Select Once</option>
+                                        @foreach ($accounts as $account)
+                                        <option value="{{$account->id}}">{{$account->bank_name.'['.$account->account_number.']'}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="available_balance">Available Balance * :</label>
+                                    <input type="number" id="available_balance" readonly class="form-control" name="available_balance"
+                                    class="@error('available_balance') is-invalid @enderror">
+                                    @error('available_balance')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+    
+                                <div class="col-3 mt-3">
+                                    <label for="total_paid">Total Paid * :</label>
+                                    <input type="number" id="total_paid"  class="form-control" name="total_paid"
+                                    class="@error('total_paid') is-invalid @enderror">
+                                    @error('total_paid')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-3 mt-3">
+                                    <label for="total_due">Total Due * :</label>
+                                    <input type="number" readonly id="total_due"  class="form-control" name="due_ammount">
+                                </div>
+    
+                                <div class="col-3 mt-3">
+                                    <label for="check_no">Check No * :</label>
+                                    <input type="number" id="check_no"  class="form-control" name="check_no">
+                                </div>
+    
+                                <div class="col-3 mt-3">
+                                    <label for="receipt_no">Receipt No * :</label>
+                                    <input type="number" id="receipt_no"  class="form-control" name="receipt_no">
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- payment row end --}}
 
                         <div class="col-12 mt-3">
                             <label for="note">Note (100 chars max) :</label>
@@ -250,8 +309,9 @@
                             <td><input type="number" class='form-control quantity' name='quantity[]'></td>
                             <td><input type="number" class='form-control purchase_price' name='purchase_price[]'></td>
                             <td width='10%'>${data.vat_rate}</td>
-                            <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal[]'></td>
+                            <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal'></td>
                             <td><a href="javascript:void(0)" class="btn-sm btn-danger deleteBtn"><i class="fa-solid fa-trash"></i></a></td>
+                            <input type="hidden" name='product_id[]' value='${data.id}'>
                             </tr>
                         `
 
@@ -288,7 +348,7 @@
         let quantity = row.find('.quantity').val();
         let price = row.find('.purchase_price').val();
 
-        let subtotal = parseInt(quantity) * parseInt(price);
+        let subtotal = parseFloat(quantity) * parseFloat(price);
         row.find('.subtotal').val(subtotal);
         totalCalculation();
     }
@@ -304,10 +364,11 @@
             totalAmmount = 0;
             $("#productRow").addClass('d-none');
             $("#costAddRow").addClass('d-none');
+            $("#paymentSection").addClass('d-none');
         }
 
         $(".subtotal").each(function () {
-            let sub = parseInt($(this).val());
+            let sub = parseFloat($(this).val());
 
             if (!isNaN(sub)) {
                 total += sub;
@@ -374,20 +435,58 @@
     });
 
     function netTotal(){
-
-        let t_Ammount = parseInt(totalAmmount);
-        let taxRate = parseInt(tax);
-        let discountRate = parseInt(discount);
-        let transport_cost = parseInt(transportCost);
+        let t_Ammount = parseFloat(totalAmmount);
+        let taxRate = parseFloat(tax);
+        let discountRate = parseFloat(discount);
+        let transport_cost = parseFloat(transportCost);
 
         let totalTax = (t_Ammount/100)*taxRate;
         let newNetAmmount = t_Ammount + totalTax;
         newNetAmmount = newNetAmmount - (newNetAmmount/100)*discountRate;
-        newNetAmmount = newNetAmmount - transport_cost
+        newNetAmmount = newNetAmmount + transport_cost
 
-        $("#total_tax").val(totalTax);
-        $("#net_total").val(newNetAmmount);
+        $("#total_tax").val(totalTax.toFixed(2));
+        $("#net_total").val(newNetAmmount.toFixed(2));
     }
+
+    // is make payment
+    $("#payment").change(function(){
+        let isPayment = $(this).val();
+        if(isPayment == 'yes'){
+            $("#paymentSection").removeClass('d-none');
+        }else{
+            $("#paymentSection").addClass('d-none');
+        }
+    });
+
+
+    // check available balance
+    $("#account_id").change(function(){
+        let id = $(this).val();
+        $.ajax({
+          url     : `/cashbook/balance/account_info/${id}`,
+          type    : 'GET',
+          success : (data)=>{
+            if(data.total_ammount){
+              $("#available_balance").val(data.total_ammount);
+            }else{
+              $("#available_balance").val(0);
+            }
+            
+          }
+        })
+    });
+
+
+    // calculation due ammount
+    $("#total_paid").on('change keyup',function(){
+        let n_total = $("#net_total").val();
+        let t_paid = $("#total_paid").val();
+
+        let total_due = parseFloat(n_total) - parseFloat(t_paid);
+        $("#total_due").val(total_due.toFixed(2));
+    });
+
 </script>
 
 @endpush

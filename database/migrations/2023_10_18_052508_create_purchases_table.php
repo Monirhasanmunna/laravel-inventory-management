@@ -18,10 +18,13 @@ return new class extends Migration
             $table->unsignedBigInteger('vat_id')->nullable();
             $table->string('po_reference')->nullable();
             $table->string('payment_terms')->nullable();
+            $table->string('sub_total');
             $table->string('total_tax')->nullable();
             $table->string('discount')->nullable();
             $table->string('transport_cost')->nullable();
             $table->string('net_total');
+            $table->string('total_paid');
+            $table->string('due_ammount')->nullable();
             $table->date('purchase_date');
             $table->date('po_date');
             $table->enum('status',['active','inactive'])->default('active');
