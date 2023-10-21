@@ -11,11 +11,16 @@ class BalanceTransfer extends Model
 
     protected $guarded = ['id'];
 
-    public function fromAccount() {
+    public function account() {
         return $this->belongsTo(Account::class, 'from_account_id');
     }
 
     public function toAccount() {
         return $this->belongsTo(Account::class, 'to_account_id');
+    }
+
+    public function histories()
+    {
+        return $this->morphMany(TransactionHistory::class, 'source');
     }
 }

@@ -35,7 +35,7 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{$transfer->transfer_reason}}</td>
-                            <td>{{$transfer->fromAccount->bank_name}}</td>
+                            <td>{{$transfer->account->bank_name}}</td>
                             <td>{{$transfer->toAccount->bank_name}}</td>
                             <td>ট{{$transfer->ammount}}</td>
                             <td>{{$transfer->date}}</td>

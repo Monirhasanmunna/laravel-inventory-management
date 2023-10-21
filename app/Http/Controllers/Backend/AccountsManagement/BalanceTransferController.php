@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\AccountsManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\BalanceTransfer;
+use App\Models\TransactionHistory;
 use App\Rules\isSameAccount;
 use App\Rules\RemoveBalanceRule;
 use App\Services\AccountsService;
@@ -17,7 +18,7 @@ class BalanceTransferController extends Controller
      */
     public function index()
     {
-        $transfers = BalanceTransfer::all();
+        $transfers = BalanceTransfer::orderBy('id','DESC')->get();
         return view('backend.cashbooks.balance-transfer.index',compact('transfers'));
     }
 
@@ -33,7 +34,7 @@ class BalanceTransferController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, AccountsService $account)
+    public function store(Request $request, AccountsService $accounts)
     {
         $request->validate([
             'transfer_reason'   => 'required',
@@ -55,7 +56,12 @@ class BalanceTransferController extends Controller
         ]);
 
         // transfer balance service
-        $account->transferBalance($transfer);
+        $accounts->transferBalance($transfer);
+
+        // create history
+        $transfer->account_id = $transfer->from_account_id;
+        $reason = 'Balance Transfer from';
+        $accounts->createHistory($transfer, $reason, 'debit', $transfer->ammount);
 
         toastr()->success('Balance Transfer Successfully');
         return to_route('balance-transfer.index');
@@ -100,6 +106,7 @@ class BalanceTransferController extends Controller
         
         // old ammount deducted
         $accounts->oldBalanceUpdate($oldAdjustment , $account);
+        TransactionHistory::where('source_type','App\Models\BalanceTransfer')->where('source_id',$id)->delete();
 
         $transfer = BalanceTransfer::create([
             'from_account_id'   => $request->from_account_id,
@@ -113,6 +120,11 @@ class BalanceTransferController extends Controller
 
         // transfer balance service
         $accounts->transferBalance($transfer);
+
+        // create history
+        $transfer->account_id = $transfer->from_account_id;
+        $reason = 'Balance Transfer from';
+        $accounts->createHistory($transfer, $reason, 'debit', $transfer->ammount);
 
         toastr()->success('Balance Updated Successfully');
         return to_route('balance-transfer.index');

@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Product;
+use App\Models\Purchase;
 
 class Helper{
     public static function productCode()
@@ -30,5 +31,38 @@ class Helper{
         }
 
         return $product_code;
+    }
+
+
+    public static function POReferenceCount()
+    {
+        $purchase = Purchase::orderBy('id','DESC')->first();
+        $newRefCode = '';
+        
+        if(isset($purchase)){
+
+            $lastPO_reference = $purchase->po_reference;
+            $number = substr($lastPO_reference, 8);
+
+            if($purchase->id > 0){
+                $newRefCode = '00000'.$purchase->id;
+            }else if($purchase->id > 9){
+                $newRefCode = '0000'.$purchase->id;
+            }else if($purchase->id > 99){
+                $newRefCode = '000'.$purchase->id;
+            }else if($purchase->id > 999){
+                $newRefCode = '00'.$purchase->id;
+            }else if($purchase->id > 9999){
+                $newRefCode = '0'.$purchase->id;
+            }else{
+                $newRefCode = $purchase->id;
+            }
+        }else{
+            $newRefCode = '000001';
+        }
+
+        $finalPoRef = 'PO-'.now()->year.'-'.$newRefCode;
+        
+        return $finalPoRef;
     }
 }

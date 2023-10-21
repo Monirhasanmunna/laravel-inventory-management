@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Product;
@@ -11,6 +12,7 @@ use App\Models\Vat;
 use App\Rules\Purchase\availableBalanceCheckRule;
 use App\Rules\Purchase\quantityCheckRule;
 use Illuminate\Http\Request;
+use App\Services\AccountsService;
 
 class PurchaseController extends Controller
 {
@@ -28,11 +30,12 @@ class PurchaseController extends Controller
      */
     public function create()
     {
+        $poRef      = Helper::POReferenceCount();
         $suppliers  = Supplier::all();
         $products   = Product::all();
         $vats       = Vat::all();
         $accounts   = Account::all();
-        return view('backend.purchase.create',compact('suppliers','products','vats','accounts'));
+        return view('backend.purchase.create',compact('suppliers','products','vats','accounts','poRef'));
     }
 
 
@@ -49,16 +52,14 @@ class PurchaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, AccountsService $accounts)
     {
         // return $request->all();
         $request->validate([
             'supplier_id'       => 'required',
             'quantity'          => [new quantityCheckRule],
-            // 'purchase_price'    => 'required',
-            // 'total'             => 'required',
             'net_total'         => 'required',
-            'total_paid'        => ['required',new availableBalanceCheckRule],
+            'total_paid'        => [new availableBalanceCheckRule],
             'purchase_date'     => 'required',
             'po_date'           => 'required',
             'status'            => 'required',
@@ -92,10 +93,20 @@ class PurchaseController extends Controller
             $products [] = [
                 'product_id'        => $request['product_id'][$key],
                 'quantity'          => $request['quantity'][$key],
-                'price'    => $request['purchase_price'][$key],
+                'price'             => $request['purchase_price'][$key],
                 'subtotal'          => $request['subtotal'][$key],
             ];
         }
+
+        
+    
+        // create transaction history
+        if($purchase->total_paid != null){
+            $reason = '['.$purchase->po_reference.'] Purchase Payment sent from';
+            $accounts->createHistory($purchase, $reason, 'debit', $purchase->total_paid);
+            $accounts->transaction($purchase, 'debit', $purchase->total_paid);
+        }
+        
 
         $purchase->products()->attach($products);
         toastr()->success('Purchase Creared Successfully');

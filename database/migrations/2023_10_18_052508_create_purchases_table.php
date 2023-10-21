@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('transport_cost')->nullable();
             $table->string('net_total');
-            $table->string('total_paid');
+            $table->string('total_paid')->nullable();
             $table->string('due_ammount')->nullable();
             $table->date('purchase_date');
             $table->date('po_date');

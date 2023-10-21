@@ -94,8 +94,8 @@
 
                         <div class="col-3 mt-3">
                             <label for="po_reference">PO Referencde * :</label>
-                            <input type="text" id="po_reference" class="form-control" name="po_reference"
-                                class="@error('po_reference') is-invalid @enderror">
+                            <input type="text" readonly id="po_reference" class="form-control" name="po_reference"
+                                class="@error('po_reference') is-invalid @enderror" value="{{$poRef}}">
                             @error('po_reference')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -122,7 +122,7 @@
 
                         <div class="col-3 mt-3">
                             <label for="total_tax">Total Tax * :</label>
-                            <input type="number" id="total_tax" readonly class="form-control" name="total_tax"
+                            <input type="number" id="total_tax" readonly class="form-control" value="0" name="total_tax"
                                 class="@error('total_tax') is-invalid @enderror">
                             @error('total_tax')
                             <span class="text-danger">{{ $message }}</span>
@@ -133,6 +133,7 @@
 
                         <div class="col-12 d-none px-2" id="costAddRow">
                             <div class="row">
+
                                 <div class="col-3 mt-3">
                                     <label for="discount">Discount * : (%)</label>
                                     <input type="number" id="discount" class="form-control" name="discount"
@@ -168,6 +169,7 @@
                                         <option value="no">No</option>
                                     </select>
                                 </div>
+
                             </div>
                         </div>
 
@@ -178,6 +180,7 @@
 
                         <div class="col-12 px-2 d-none" id="paymentSection">
                             <div class="row">
+
                                 <div class="col-6 mt-3">
                                     <label for="account_id">Account *:</label>
                                     <select id="account_id" class="form-control" name="account_id">
@@ -187,6 +190,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col-6 mt-3">
                                     <label for="available_balance">Available Balance * :</label>
                                     <input type="number" id="available_balance" readonly class="form-control" name="available_balance"
@@ -219,6 +223,7 @@
                                     <label for="receipt_no">Receipt No * :</label>
                                     <input type="number" id="receipt_no"  class="form-control" name="receipt_no">
                                 </div>
+
                             </div>
                         </div>
 
@@ -251,7 +256,6 @@
                             @enderror
                         </div>
 
-
                         <div class="col-4 mt-3">
                             <label for="status">Status *:</label>
                             <select id="status" class="form-control form-control @error('status') is-invalid @enderror"
@@ -260,8 +264,6 @@
                                 <option value="inactive">Inactive</option>
                             </select>
                         </div>
-
-
                     </div>
 
                     <div class="row mt-3">
@@ -307,9 +309,9 @@
                             <td width='10%'>${data.item_code}</td>
                             <td width='15%'>${data.name}</td>
                             <td><input type="number" class='form-control quantity' name='quantity[]'></td>
-                            <td><input type="number" class='form-control purchase_price' name='purchase_price[]'></td>
+                            <td><input type="text" pattern="[0-9]+(\.[0-9]+)?" class='form-control purchase_price' name='purchase_price[]'></td>
                             <td width='10%'>${data.vat_rate}</td>
-                            <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal'></td>
+                            <td width='15%'><input type="number" readonly class='form-control subtotal' name='subtotal[]'></td>
                             <td><a href="javascript:void(0)" class="btn-sm btn-danger deleteBtn"><i class="fa-solid fa-trash"></i></a></td>
                             <input type="hidden" name='product_id[]' value='${data.id}'>
                             </tr>
@@ -349,7 +351,7 @@
         let price = row.find('.purchase_price').val();
 
         let subtotal = parseFloat(quantity) * parseFloat(price);
-        row.find('.subtotal').val(subtotal);
+        row.find('.subtotal').val(subtotal.toFixed(2));
         totalCalculation();
     }
 
@@ -377,9 +379,10 @@
                 totalAmmount = total
             }
         })
-        $("#totalAmmount").html(totalAmmount);
-        $("#total").val(totalAmmount);
-        $("#net_total").val(totalAmmount);
+        $("#totalAmmount").html(totalAmmount.toFixed(2));
+        $("#total").val(totalAmmount.toFixed(2));
+        $("#net_total").val(totalAmmount.toFixed(2));
+        $("#total_due").val(totalAmmount.toFixed(2));
     }
 
     // item delete
@@ -409,30 +412,20 @@
 
 
     // calculation Net total 
-    $("#discount").change(function(){
+    $("#discount").on('change keyup',function(){
         discount = $(this).val();
         discount == '' ? discount = 0 : discount;
         netTotal();
+        
     });
 
-    $("#discount").keyup(function(){
-        discount = $(this).val();
-        discount == '' ? discount = 0 : discount;
-        netTotal();
-    });
-
-    $("#transport_cost").change(function(){
+    $("#transport_cost").on('change keyup',function(){
         transportCost = $(this).val();
         transportCost == '' ? transportCost = 0 : transportCost;
         netTotal();
-
+        
     });
 
-    $("#transport_cost").keyup(function(){
-        transportCost = $(this).val();
-        transportCost == '' ? transportCost = 0 : transportCost;
-        netTotal();
-    });
 
     function netTotal(){
         let t_Ammount = parseFloat(totalAmmount);
@@ -447,6 +440,7 @@
 
         $("#total_tax").val(totalTax.toFixed(2));
         $("#net_total").val(newNetAmmount.toFixed(2));
+        $("#total_due").val(newNetAmmount.toFixed(2));
     }
 
     // is make payment
@@ -480,12 +474,16 @@
 
     // calculation due ammount
     $("#total_paid").on('change keyup',function(){
+        calculateDue();
+    });
+
+    function calculateDue(){
         let n_total = $("#net_total").val();
         let t_paid = $("#total_paid").val();
 
         let total_due = parseFloat(n_total) - parseFloat(t_paid);
         $("#total_due").val(total_due.toFixed(2));
-    });
+    }
 
 </script>
 

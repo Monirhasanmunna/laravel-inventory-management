@@ -3,13 +3,14 @@
 use App\Http\Controllers\Backend\AccountsManagement\AccountController;
 use App\Http\Controllers\Backend\AccountsManagement\BalanceAdjustmentController;
 use App\Http\Controllers\Backend\AccountsManagement\BalanceTransferController;
+use App\Http\Controllers\Backend\AccountsManagement\TransactionHistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::group(['prefix'=> 'cashbook'],function(){
         // accounts routes
         Route::group(['as'=>'accounts.','prefix'=>'accounts'],function(){
-            Route::get('/index',[AccountController::class,'index'])->name('index');
+            Route::get('/',[AccountController::class,'index'])->name('index');
             Route::get('/create',[AccountController::class,'create'])->name('create');
             Route::post('/store',[AccountController::class,'store'])->name('store');
             Route::get('/edit/{id}',[AccountController::class,'edit'])->name('edit');
@@ -19,7 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // balance adjustment routes
         Route::group(['as'=>'balance.','prefix'=>'balance'],function(){
-            Route::get('/index',[BalanceAdjustmentController::class,'index'])->name('index');
+            Route::get('/',[BalanceAdjustmentController::class,'index'])->name('index');
             Route::get('/create',[BalanceAdjustmentController::class,'create'])->name('create');
             Route::post('/store',[BalanceAdjustmentController::class,'store'])->name('store');
             Route::get('/edit/{id}',[BalanceAdjustmentController::class,'edit'])->name('edit');
@@ -32,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // balance transfer route
         Route::group(['as'=>'balance-transfer.','prefix'=>'balance-transfer'],function(){
-            Route::get('/index',[BalanceTransferController::class,'index'])->name('index');
+            Route::get('/',[BalanceTransferController::class,'index'])->name('index');
             Route::get('/create',[BalanceTransferController::class,'create'])->name('create');
             Route::post('/store',[BalanceTransferController::class,'store'])->name('store');
             Route::get('/edit/{id}',[BalanceTransferController::class,'edit'])->name('edit');
@@ -41,12 +42,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::group(['as'=>'transaction.','prefix'=>'transaction'],function(){
-            Route::get('/index',[AccountController::class,'index'])->name('index');
-            Route::get('/create',[AccountController::class,'create'])->name('create');
-            Route::post('/store',[AccountController::class,'store'])->name('store');
-            Route::get('/edit/{id}',[AccountController::class,'edit'])->name('edit');
-            Route::put('/update/{id}',[AccountController::class,'update'])->name('update');
-            Route::put('/destroy/{id}',[AccountController::class,'destroy'])->name('destroy');
+            Route::get('/',[TransactionHistoryController::class,'index'])->name('index');
+            Route::get('/create',[TransactionHistoryController::class,'create'])->name('create');
+            Route::post('/store',[TransactionHistoryController::class,'store'])->name('store');
+            Route::get('/edit/{id}',[TransactionHistoryController::class,'edit'])->name('edit');
+            Route::put('/update/{id}',[TransactionHistoryController::class,'update'])->name('update');
+            Route::put('/destroy/{id}',[TransactionHistoryController::class,'destroy'])->name('destroy');
         });
 
 

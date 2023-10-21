@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\AccountsManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\BalanceAdjustment;
+use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 use App\Services\AccountsService;
 use App\Rules\RemoveBalanceRule;
@@ -39,7 +40,6 @@ class BalanceAdjustmentController extends Controller
      */
     public function store(Request $request , AccountsService $accounts)
     {
-        
         $request->validate([
             'account_id'        => 'required',
             'type'              => 'required',
@@ -60,6 +60,18 @@ class BalanceAdjustmentController extends Controller
 
         // balance adjustment servire
         $accounts->BalanceAdjustmentToAccount($adjustment);
+
+
+        $type = '';
+        if($adjustment->type == 'addBalance'){
+            $type = 'credit';
+        }else{
+            $type = 'debit';
+        }
+
+        $reason = 'Balance Adjustments';
+        $accounts->createHistory($adjustment, $reason, $type, $adjustment->ammount);
+
 
         toastr()->success('Balance Adjustment Successfully');
         return to_route('balance.index');
@@ -101,6 +113,7 @@ class BalanceAdjustmentController extends Controller
 
         $oldAdjustment = BalanceAdjustment::find($id);
         $account = Account::find($oldAdjustment->account_id);
+        TransactionHistory::where('source_type','App\Models\BalanceAdjustment')->where('source_id',$id)->delete();
        
         //old balance adjustment
         $accounts->oldBalanceUpdate($oldAdjustment, $account);
@@ -116,6 +129,18 @@ class BalanceAdjustmentController extends Controller
 
         // balance adjustment servire
         $accounts->BalanceAdjustmentToAccount($adjustment);
+
+
+        $type = '';
+        if($adjustment->type == 'addBalance'){
+            $type = 'credit';
+        }else{
+            $type = 'debit';
+        }
+
+        // update history
+        $reason = 'Balance Adjustments';
+        $accounts->createHistory($adjustment, $reason, $type, $adjustment->ammount);
 
         toastr()->success('Balance Updated Successfully');
         return to_route('balance.index');

@@ -53,4 +53,32 @@ Class AccountsService{
     }
 
 
+    public function createHistory($item, $reason, $type, $ammount)
+    {
+        // find account
+        $account = Account::find($item->account_id);
+
+        // history create
+        $item->histories()->create([
+            'reason' => $reason.' ['.$account->account_number.']' ?? 'Cash'.']',
+            'date'   => date('Y-m-d'),
+            'type'   => $type,
+            'ammount'=> $ammount
+        ]);
+    }
+
+
+    public function transaction($item, $type, $ammount)
+    {
+        // find account
+        $account = Account::find($item->account_id);
+
+        //adjust account ammount
+        if($type == 'debit'){
+            $account->total_ammount = $account->total_ammount - $ammount;
+            $account->save();
+        }
+
+    }
+
 }

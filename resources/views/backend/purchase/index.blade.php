@@ -43,11 +43,11 @@
                             <td>{{$purchase->supplier->name}}</td>
                             <td>Tk.{{$purchase->sub_total}}</td>
                             <td>Tk.{{$purchase->total_tax}}</td>
-                            <td>{{$purchase->discount}}%</td>
-                            <td>Tk.{{$purchase->transport_cost}}</td>
+                            <td>{{$purchase->discount ?? 0}}%</td>
+                            <td>Tk.{{$purchase->transport_cost ?? 0}}</td>
                             <td>Tk.{{$purchase->net_total}}</td>
-                            <td>Tk.{{$purchase->total_paid}}</td>
-                            <td>Tk.{{$purchase->due_ammount}}</td>
+                            <td>Tk.{{$purchase->total_paid ?? 0}}</td>
+                            <td>Tk.{{$purchase->due_ammount ?? 0}}</td>
                             <td>
                                 @if ($purchase->status == 'active')
                                     <span class="badge badge-primary" style="font-size: 11px">Active</span>
