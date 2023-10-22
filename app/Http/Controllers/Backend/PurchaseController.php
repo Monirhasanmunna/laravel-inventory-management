@@ -99,7 +99,6 @@ class PurchaseController extends Controller
         }
 
         
-    
         // create transaction history
         if($purchase->total_paid != null){
             $reason = '['.$purchase->po_reference.'] Purchase Payment sent from';
@@ -126,7 +125,13 @@ class PurchaseController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $suppliers  = Supplier::all();
+        $products   = Product::all();
+        $vats       = Vat::all();
+        $accounts   = Account::all();
+
+        $purchase  = Purchase::find($id);
+        return view('backend.purchase.edit',compact('suppliers','products','vats','accounts','purchase'));
     }
 
     /**
