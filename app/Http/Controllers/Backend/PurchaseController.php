@@ -84,7 +84,10 @@ class PurchaseController extends Controller
             'purchase_date'     => $request->purchase_date,
             'po_date'           => $request->po_date,
             'status'            => $request->status,
-            'sub_total'         => $request->sub_total
+            'sub_total'         => $request->sub_total,
+            'check_no'          => $request->check_no,
+            'receipt_no'        => $request->receipt_no,
+            'note'              => $request->note,
         ]);
 
 
@@ -142,11 +145,11 @@ class PurchaseController extends Controller
     {
         $purchase   = Purchase::find($id);
 
-        // if($purchase->account_id){
-        //     $account    = Account::find($purchase->account_id);
-        //     $account->total_ammount = $account->total_ammount + $purchase->total_paid;
-        //     $account->save();
-        // }
+        if($purchase->account_id){
+            $account    = Account::find($purchase->account_id);
+            $account->total_ammount = $account->total_ammount + $purchase->total_paid;
+            $account->save();
+        }
         
         //  return $request->all();
          $request->validate([
@@ -178,11 +181,15 @@ class PurchaseController extends Controller
             'purchase_date'     => $request->purchase_date,
             'po_date'           => $request->po_date,
             'status'            => $request->status,
-            'sub_total'         => $request->sub_total
+            'sub_total'         => $request->sub_total,
+            'check_no'          => $request->check_no,
+            'receipt_no'        => $request->receipt_no,
+            'note'              => $request->note,
         ]);
 
-        
 
+
+        
         $products = [];
         foreach ($request['product_id'] as $key => $value) {
             // create new array for attach
@@ -210,7 +217,7 @@ class PurchaseController extends Controller
         }
         
 
-        $purchase->products()->detach($products);
+        $purchase->products()->detach($request['product_id']);
         $purchase->products()->sync($products);
         toastr()->success('Purchase Creared Successfully');
         return to_route('purchase.index');

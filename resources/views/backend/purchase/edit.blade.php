@@ -232,12 +232,12 @@
     
                                 <div class="col-3 mt-3">
                                     <label for="check_no">Check No * :</label>
-                                    <input type="number" id="check_no"  class="form-control" name="check_no" >
+                                    <input type="number" id="check_no"  class="form-control" name="check_no" value="{{@$purchase->check_no ?? ''}}">
                                 </div>
     
                                 <div class="col-3 mt-3">
                                     <label for="receipt_no">Receipt No * :</label>
-                                    <input type="number" id="receipt_no"  class="form-control" name="receipt_no">
+                                    <input type="number" id="receipt_no"  class="form-control" name="receipt_no"  value="{{@$purchase->receipt_no ?? ''}}">
                                 </div>
 
                             </div>
@@ -248,7 +248,7 @@
                         <div class="col-12 mt-3">
                             <label for="note">Note (100 chars max) :</label>
                             <textarea id="note" class="form-control form-control" name="note"
-                                class="@error('note') is-invalid @enderror"></textarea>
+                                class="@error('note') is-invalid @enderror">{{@$purchase->note}}</textarea>
                             @error('note')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -442,13 +442,11 @@
         });
     }
 
-    let totalTax = 0;
 
-    let netAfterTax = 0
     function totalTaxCal(){
         let t_Ammount = parseFloat(totalAmmount);
         let taxRate = parseFloat(tax);
-        totalTax = (t_Ammount/100)*taxRate;
+        let totalTax = (t_Ammount/100)*taxRate;
         $("#total_tax").val(totalTax.toFixed(2));
         let net_total = t_Ammount + parseFloat(totalTax.toFixed(2));
         $("#net_total").val(net_total.toFixed(2));
@@ -458,7 +456,7 @@
         
     }
 
-    let discount = $("#discount").val() ? $("#discount").val() : 0;
+    let discount = $("#discount").val();
     // calculation Net total 
     $("#discount").on('change keyup',function(){
         discount = $(this).val();
@@ -468,7 +466,7 @@
     });
 
 
-    let transportCost = $("#transport_cost").val() ? $("#transport_cost").val() : 0;
+    let transportCost = $("#transport_cost").val();
     // calculation Net total 
     $("#transport_cost").on('change keyup',function(){
         transportCost = $(this).val();
@@ -477,7 +475,7 @@
     });
 
     
-    let netTotalAmmount = 0;
+    let netTotalAmmount = $("#oldNetAmmount").val();
 
     function netTotalCal(){
         let newNetAmmount = parseInt(netTotal);
@@ -486,6 +484,7 @@
         let transport_cost = parseInt(transportCost);
 
         let aftrerDiscount = newNetAmmount - ((newNetAmmount/100)*discountRate);
+        console.log(newNetAmmount);
         let net_ammount = parseFloat(aftrerDiscount + transport_cost);
 
         console.log(net_ammount);
@@ -493,6 +492,7 @@
         $("#net_total").val(net_ammount.toFixed(2));
     }
 
+    // netTotalCal();
 
     // is make payment
     $("#payment").change(function(){
@@ -541,6 +541,7 @@
         let t_paid = $("#total_paid").val() ? $("#total_paid").val() : 0;
 
         console.log(n_total);
+        // console.log(n_total);
 
         let total_due = parseFloat(n_total) - parseFloat(t_paid);
         $("#total_due").val(total_due.toFixed(2));

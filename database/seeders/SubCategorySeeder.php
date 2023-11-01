@@ -26,7 +26,7 @@ class SubCategorySeeder extends Seeder
         SubCategory::updateOrCreate([
             'category_id' => $category->id,
             'name'        => 'Ball',
-            'status'      => 'inactive'
+            'status'      => 'active'
         ]);
        }
 

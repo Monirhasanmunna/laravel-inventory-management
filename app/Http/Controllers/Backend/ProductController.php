@@ -67,6 +67,7 @@ class ProductController extends Controller
             'status'                => 'required',
         ]);
 
+
       $product =  Product::create([
             'name'              => $request->name,
             'model'             => $request->model,
