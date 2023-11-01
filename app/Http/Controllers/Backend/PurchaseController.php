@@ -219,6 +219,7 @@ class PurchaseController extends Controller
 
         $purchase->products()->detach($request['product_id']);
         $purchase->products()->sync($products);
+
         toastr()->success('Purchase Creared Successfully');
         return to_route('purchase.index');
     }
@@ -228,6 +229,8 @@ class PurchaseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Purchase::find($id)->delete();
+        toastr()->success('Purchase Deleted Successfully');
+        return redirect()->back();
     }
 }
