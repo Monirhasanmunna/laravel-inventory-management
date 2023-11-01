@@ -13,15 +13,15 @@ class Helper{
 
         if(isset($product)){
             if($product->id > 0){
-                $product_code = '00000'.$product->id;
+                $product_code = '00000'.$product->id+1;
             }else if($product->id > 9){
-                $product_code = '0000'.$product->id;
+                $product_code = '0000'.$product->id+1;
             }else if($product->id > 99){
-                $product_code = '000'.$product->id;
+                $product_code = '000'.$product->id+1;
             }else if($product->id > 999){
-                $product_code = '00'.$product->id;
+                $product_code = '00'.$product->id+1;
             }else if($product->id > 9999){
-                $product_code = '0'.$product->id;
+                $product_code = '0'.$product->id+1;
             }else{
                 $product_code = $product->id;
             }

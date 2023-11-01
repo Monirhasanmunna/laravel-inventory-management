@@ -21,14 +21,14 @@
                 <h2>Edit Purchase</h2>
 
                 <div class="text-right">
-                    <a href="{{route('purchase.index')}}" class="btn btn-secondary"><i
-                            class="fa-solid fa-arrow-left mr-2" style="font-size: 17px;"></i>Back</a>
+                    <a href="{{route('purchase.index')}}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left mr-2" style="font-size: 17px;"></i>Back</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
-                <form id="" action="{{route('purchase.store')}}" method="Post">
+                <form id="" action="{{route('purchase.update',$purchase->id)}}" method="Post">
+                    @method('PUT')
                     @csrf
                     <div class="row">
                         <div class="col-6">
@@ -134,7 +134,7 @@
 
                         <div class="col-3 mt-3">
                             <label for="total_tax">Total Tax * :</label>
-                            <input type="number" id="total_tax" readonly class="form-control" name="total_tax"
+                            <input type="number" id="total_tax" readonly class="form-control" name="total_tax" value="{{@$purchase->total_tax}}"
                                 class="@error('total_tax') is-invalid @enderror">
                             @error('total_tax')
                             <span class="text-danger">{{ $message }}</span>
@@ -155,6 +155,8 @@
                                     @enderror
                                 </div>
 
+                                
+
                                 <div class="col-3 mt-3">
                                     <label for="transport_cost">Transport Cost * :</label>
                                     <input type="number" id="transport_cost" class="form-control" name="transport_cost"
@@ -166,12 +168,14 @@
 
                                 <div class="col-3 mt-3">
                                     <label for="net_total">Net Total * :</label>
-                                    <input type="number" id="net_total" readonly class="form-control" name="net_total"
+                                    <input type="number" id="net_total" readonly class="form-control" value="{{@$purchase->net_total}}" name="net_total"
                                         class="@error('net_total') is-invalid @enderror">
                                     @error('net_total')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+
+                                <input type="hidden" id="oldNetAmmount" value="{{@$purchase->net_total}}">
 
                                 <div class="col-3 mt-3">
                                     <label for="payment">Add Payment? *:</label>
@@ -198,8 +202,8 @@
                                     <select id="account_id" class="form-control" name="account_id">
                                         <option hidden selected disabled="disabled">Select Once</option>
                                         @foreach ($accounts as $account)
-                                        <option value="{{$account->id}}">{{$account->bank_name.'['.$account->account_number.']'}}</option>
-                                        @endforeach
+                                        <option {{$account->id == $purchase->account_id ? 'selected' : ''}} value="{{$account->id}}">{{$account->bank_name.'['.$account->account_number.']'}}</option>
+                                        @endforeach 
                                     </select>
                                 </div>
 
@@ -357,6 +361,9 @@
     });
 
 
+    
+
+
     function subtotalcalculation(input) {
         let row = input.closest('tr');
         let quantity = row.find('.quantity').val();
@@ -370,8 +377,8 @@
 
     // total calculation
     let totalAmmount = 0;
-    totalCalculation();
-
+    let netTotal = 0;
+    
     function totalCalculation() {
         let total = 0;
 
@@ -389,19 +396,27 @@
                 total += sub;
             }
             if (!isNaN(total)) {
-                totalAmmount = total
+                totalAmmount = total;
+                netTotal = total;
+
             }
-        })
+        });
+
+        
         $("#totalAmmount").html(totalAmmount.toFixed(2));
         $("#total").val(totalAmmount.toFixed(2));
         $("#net_total").val(totalAmmount.toFixed(2));
-        $("#total_due").val(totalAmmount.toFixed(2));
+        // $("#total_due").val(totalAmmount.toFixed(2));
+
     }
+
+    // totalCalculation();
 
     // item delete
     $(document).on('click', '.deleteBtn', function () {
         $(this).closest('tr').remove();
         totalCalculation();
+        
     });
 
 
@@ -412,10 +427,8 @@
         taxRateGet(tax_id);
     });
 
-
-
     let tax = 0;
-    taxRateGet(tax_id);
+    // taxRateGet(tax_id);
 
     function taxRateGet(tax_id){
         $("#total_tax").val('');
@@ -429,52 +442,57 @@
         });
     }
 
-
-
-    let discount = $("#discount").val();
-    // calculation Net total 
-    $("#discount").on('change keyup',function(){
-        discount = $(this).val();
-        discount == '' ? discount = 0 : discount;
-        netTotal();
-        
-    });
-
-
-    let transportCost = $("#transport_cost").val();
-
-    $("#transport_cost").on('change keyup',function(){
-        transportCost = $(this).val();
-        transportCost == '' ? transportCost = 0 : transportCost;
-        netTotal();
-    });
-
-
-
     let totalTax = 0;
+
+    let netAfterTax = 0
     function totalTaxCal(){
         let t_Ammount = parseFloat(totalAmmount);
         let taxRate = parseFloat(tax);
         totalTax = (t_Ammount/100)*taxRate;
         $("#total_tax").val(totalTax.toFixed(2));
-        netTotal();
+        let net_total = t_Ammount + parseFloat(totalTax.toFixed(2));
+        $("#net_total").val(net_total.toFixed(2));
+        netTotal = net_total;
+        netTotalCal();
+        calculateDue();
+        
     }
+
+    let discount = $("#discount").val() ? $("#discount").val() : 0;
+    // calculation Net total 
+    $("#discount").on('change keyup',function(){
+        discount = $(this).val();
+        discount == '' ? discount = 0 : discount;
+        netTotalCal();
+        
+    });
+
+
+    let transportCost = $("#transport_cost").val() ? $("#transport_cost").val() : 0;
+    // calculation Net total 
+    $("#transport_cost").on('change keyup',function(){
+        transportCost = $(this).val();
+        transportCost == '' ? transportCost = 0 : transportCost;
+        netTotalCal();
+    });
+
     
+    let netTotalAmmount = 0;
 
+    function netTotalCal(){
+        let newNetAmmount = parseInt(netTotal);
+        
+        let discountRate = parseInt(discount);
+        let transport_cost = parseInt(transportCost);
 
-    netTotal();
-    function netTotal(){
-        let t_Ammount = parseFloat(totalAmmount);
-        let discountRate = parseFloat(discount);
-        let transport_cost = parseFloat(transportCost);
+        let aftrerDiscount = newNetAmmount - ((newNetAmmount/100)*discountRate);
+        let net_ammount = parseFloat(aftrerDiscount + transport_cost);
 
-        let newNetAmmount = t_Ammount + totalTax;
-        newNetAmmount = newNetAmmount - (newNetAmmount/100)*discountRate;
-        newNetAmmount = newNetAmmount + transport_cost
-
-        $("#net_total").val(newNetAmmount.toFixed(2));
-        $("#total_due").val(newNetAmmount.toFixed(2));
+        console.log(net_ammount);
+        netTotalAmmount = net_ammount;
+        $("#net_total").val(net_ammount.toFixed(2));
     }
+
 
     // is make payment
     $("#payment").change(function(){
@@ -487,9 +505,16 @@
     });
 
 
+    let id = $("#account_id").val();
+    checkTotalAmmount(id);
     // check available balance
     $("#account_id").change(function(){
-        let id = $(this).val();
+        id = $(this).val();
+        checkTotalAmmount(id);
+        
+    });
+
+    function checkTotalAmmount(id){
         $.ajax({
           url     : `/cashbook/balance/account_info/${id}`,
           type    : 'GET',
@@ -501,27 +526,33 @@
             }
             
           }
-        })
-    });
+        });
+    }
 
 
-    calculateDue();
+    
     // calculation due ammount
     $("#total_paid").on('change keyup',function(){
         calculateDue();
     });
 
     function calculateDue(){
-        let n_total = $("#net_total").val();
-        let t_paid = $("#total_paid").val();
+        let n_total = netTotalAmmount;
+        let t_paid = $("#total_paid").val() ? $("#total_paid").val() : 0;
 
         console.log(n_total);
 
         let total_due = parseFloat(n_total) - parseFloat(t_paid);
         $("#total_due").val(total_due.toFixed(2));
     }
-    
+    // calculateDue();
 
+
+    $(document).on('change keyup',function(){
+        totalCalculation();
+        totalTaxCal();
+        netTotalCal();
+    });
 </script>
 
 @endpush

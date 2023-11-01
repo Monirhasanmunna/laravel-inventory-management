@@ -2,6 +2,7 @@
 
 namespace App\Rules\Purchase;
 
+use App\Models\Account;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -15,13 +16,18 @@ class availableBalanceCheckRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // get request's by request
-        $total_paid = request('total_paid');
-        $availableBalance = request('available_balance');
+        if(request('account_id')){
+            $total_paid = request('total_paid');
+            
+            $account_id = request('account_id');
+            $account = Account::find($account_id);
+            $availableBalance = $account->total_ammount;
 
         // check is payment greater than availaleBalance?
-        if($total_paid > $availableBalance){
-            //error message set
-            $fail("The amount should not more than availabe balance");
+            if($total_paid > $availableBalance){
+                //error message set
+                $fail("The amount should not more than availabe balance");
+            }
         }
     }
 }

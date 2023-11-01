@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('net_total');
             $table->string('total_paid')->nullable();
             $table->string('due_ammount')->nullable();
+            $table->string('check_no')->nullable();
+            $table->string('receipt_no')->nullable();
             $table->date('purchase_date');
             $table->date('po_date');
             $table->enum('status',['active','inactive'])->default('active');
