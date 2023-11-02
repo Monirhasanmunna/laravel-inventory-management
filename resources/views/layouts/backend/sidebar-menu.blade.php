@@ -33,11 +33,11 @@
         <h3>ACTIVITIES</h3>
 
         @can('expenses')
-        <li><a><i class="fa-solid fa-calculator"></i> Expenses <span class="fa fa-chevron-down"></span></a>
-          <ul class="nav child_menu">
+        <li class="{{Request::is('expense/*') ? 'active' : ''}}"><a><i class="fa-solid fa-calculator"></i> Expenses <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu" style="{{Request::is('expense/*') ? 'display: block' : ''}}">
 
             @can('expenses.categories')
-            <li><a href="index.html">Categories</a></li>
+            <li class="{{Request::is('expense/categories/*') ? 'current-page' : ''}}"><a href="{{route('expense.categories.index')}}">Categories</a></li>
             @endcan
 
             @can('expenses.sub_categories')

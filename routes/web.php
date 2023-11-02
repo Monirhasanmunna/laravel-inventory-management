@@ -28,6 +28,7 @@ require __DIR__.'/setup.php';
 require __DIR__.'/accounts.php';
 require __DIR__.'/products.php';
 require __DIR__.'/purchase.php';
+require __DIR__.'/expense.php';
 
 });
 
