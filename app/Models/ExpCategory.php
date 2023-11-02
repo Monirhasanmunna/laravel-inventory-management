@@ -9,5 +9,5 @@ class ExpCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','status','note'];
+    protected $fillable = ['id','name','status','note'];
 }

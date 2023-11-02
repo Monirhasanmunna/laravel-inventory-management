@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ExpCategory;
+use App\Models\ExpSubCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,9 +14,27 @@ class ExpCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        ExpCategory::updateOrCreate([
-            'name'  => 'utilities',
+        $category = ExpCategory::updateOrCreate([
+            'name'  => 'Utilities',
             'status'=> 'active',
+        ]);
+
+        ExpSubCategory::updateOrCreate([
+            'exp_category_id'   => $category->id,
+            'name'              => 'Electricity Bill',
+            'status'            => 'active',
+        ]);
+
+        ExpSubCategory::updateOrCreate([
+            'exp_category_id'   => $category->id,
+            'name'              => 'Gass Bill',
+            'status'            => 'active',
+        ]);
+
+        ExpSubCategory::updateOrCreate([
+            'exp_category_id'   => $category->id,
+            'name'              => 'Washa Bill',
+            'status'            => 'active',
         ]);
     }
 }
