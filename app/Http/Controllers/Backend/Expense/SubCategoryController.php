@@ -14,7 +14,7 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subCategories = ExpSubCategory::orderBy('id','DESC')->get();
+        $subCategories = ExpSubCategory::with('category')->orderBy('id','DESC')->get();
         return view('backend.expense.sub-categories.index',compact('subCategories'));
     }
 
