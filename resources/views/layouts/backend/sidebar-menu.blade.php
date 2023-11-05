@@ -45,7 +45,7 @@
             @endcan
 
             @can('expenses.list')
-            <li><a href="index3.html">Expenses List</a></li>
+            <li class="{{Request::is('expense/expenses/*') ? 'current-page' : ''}}"><a href="{{route('expense.expenses.index')}}">Expenses List</a></li>
             @endcan
           </ul>
         </li>

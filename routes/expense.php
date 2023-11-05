@@ -1,11 +1,23 @@
 <?php
 
 use App\Http\Controllers\Backend\Expense\CategoryController;
+use App\Http\Controllers\Backend\Expense\ExpenseController;
 use App\Http\Controllers\Backend\Expense\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::group(['as'=>'expense.','prefix'=>'expense'],function(){
+
+    Route::group(['as'=>'expenses.','prefix'=>'expenses'],function(){
+        Route::get('/',[ExpenseController::class,'index'])->name('index');
+        Route::get('/create',[ExpenseController::class,'create'])->name('create');
+        Route::post('/store',[ExpenseController::class,'store'])->name('store');
+        Route::get('/edit/{id}',[ExpenseController::class,'edit'])->name('edit');
+        Route::put('/update/{id}',[ExpenseController::class,'update'])->name('update');
+        Route::put('/destroy/{id}',[ExpenseController::class,'destroy'])->name('destroy');
+
+        Route::get('/sub_category_by_category_id/{id}',[ExpenseController::class,'SubCategoryById']);
+    });
 
     Route::group(['as'=>'categories.','prefix'=>'categories'],function(){
         Route::get('/',[CategoryController::class,'index'])->name('index');
@@ -25,4 +37,5 @@ Route::group(['as'=>'expense.','prefix'=>'expense'],function(){
         Route::put('/destroy/{id}',[SubCategoryController::class,'destroy'])->name('destroy');
     });
 
+    
 });

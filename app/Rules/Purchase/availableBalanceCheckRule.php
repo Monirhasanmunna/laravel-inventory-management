@@ -15,9 +15,20 @@ class availableBalanceCheckRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+
+
         // get request's by request
         if(request('account_id')){
-            $total_paid = request('total_paid');
+            $total_paid = '';
+            
+            if(request('total_paid')){
+              $total_paid = request('total_paid');  
+            }
+
+            if(request('ammount')){
+                $total_paid = request('ammount');  
+            }
+            
             
             $account_id = request('account_id');
             $account = Account::find($account_id);
