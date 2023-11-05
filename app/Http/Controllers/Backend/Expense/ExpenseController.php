@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\ExpCategory;
 use App\Models\Expense;
 use App\Models\ExpSubCategory;
+use App\Models\TransactionHistory;
 use App\Rules\ExpenseUpdateAmmountRule;
 use App\Rules\Purchase\availableBalanceCheckRule;
 use App\Services\AccountsService;
@@ -137,10 +138,12 @@ class ExpenseController extends Controller
         ]);
 
 
-        $accounts->transaction($expense, 'debit', $expense->ammount);
-        $reason = 'Paid For '.$expense->reason;
-        $accounts->createHistory($expense, $reason, 'debit', $expense->ammount);
+        $history = TransactionHistory::where('source_type','App\Models\Expense')->where('source_id',$id)->first();
+        $history->update([
+            'ammount'   => $expense->ammount,
+        ]);
 
+        $accounts->transaction($expense, 'debit', $expense->ammount);
 
         toastr()->success('Expense Updated');
         return to_route('expense.expenses.index');
