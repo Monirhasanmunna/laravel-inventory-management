@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('selling_price');
             $table->string('note')->nullable();
+            $table->bigInteger('quantity')->default(0);
             $table->string('alert_quantity')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->string('image')->nullable();

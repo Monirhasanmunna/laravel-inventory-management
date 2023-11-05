@@ -103,15 +103,22 @@ class PurchaseController extends Controller
         }
 
         
+        $purchase->products()->attach($products);
+
+        // product quantity update
+        foreach ($request['product_id'] as $key => $id) {
+            $product = Product::find($id);
+            $product->quantity = $product->quantity + $request['quantity'][$key];
+            $product->save();
+        }
+
         // create transaction history
         if($purchase->total_paid != null){
             $reason = '['.$purchase->po_reference.'] Purchase Payment sent from';
             $accounts->createHistory($purchase, $reason, 'debit', $purchase->total_paid);
             $accounts->transaction($purchase, 'debit', $purchase->total_paid);
         }
-        
 
-        $purchase->products()->attach($products);
         toastr()->success('Purchase Creared Successfully');
         return to_route('purchase.index');
     }
@@ -150,6 +157,13 @@ class PurchaseController extends Controller
             $account->total_ammount = $account->total_ammount + $purchase->total_paid;
             $account->save();
         }
+
+        // old product quantity minus
+        foreach ($purchase->products as $key => $product) {
+            $product = Product::find($product->id);
+            $product->quantity = $product->quantity - $purchase->products[$key]->pivot->quantity;
+            $product->save();
+        }
         
         //  return $request->all();
          $request->validate([
@@ -163,8 +177,6 @@ class PurchaseController extends Controller
             'sub_total'         => 'required',
         ]);
 
-        
-        
         
         $purchase->update([
             'supplier_id'       => $request->supplier_id,
@@ -187,8 +199,6 @@ class PurchaseController extends Controller
             'note'              => $request->note,
         ]);
 
-
-
         
         $products = [];
         foreach ($request['product_id'] as $key => $value) {
@@ -202,7 +212,18 @@ class PurchaseController extends Controller
         }
 
         // return $products;
-        
+        $purchase->products()->detach($request['product_id']);
+        $purchase->products()->sync($products);
+
+
+        // product quantity update
+        foreach ($request['product_id'] as $key => $id) {
+            $product = Product::find($id);
+            $product->quantity = $product->quantity + $request['quantity'][$key];
+            $product->save();
+        }
+
+
         // create transaction history
         if($purchase->total_paid != null){
             $reason = '['.$purchase->po_reference.'] Purchase Payment sent from';
@@ -215,10 +236,6 @@ class PurchaseController extends Controller
             'reason'    => $reason,
            ]);
         }
-        
-
-        $purchase->products()->detach($request['product_id']);
-        $purchase->products()->sync($products);
 
         toastr()->success('Purchase Creared Successfully');
         return to_route('purchase.index');
