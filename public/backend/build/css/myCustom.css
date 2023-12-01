@@ -21,7 +21,7 @@
 }
 
 .dashboard-card-title{
-    font-size: 13px;
+    font-size: 16px;
     text-transform: uppercase;
 }
 
@@ -77,5 +77,11 @@
 
     .dashboard-card-title{
         font-size: 14px;
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+    .dashboard-card-title{
+        font-size: 18px;
     }
 }
