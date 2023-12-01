@@ -15,7 +15,7 @@
 {{-- page title section --}}
 
 
-    <div class="col-12">
+    <div class="col-12 animation">
         <div class="card">
             <div class="d-flex justify-content-between mt-2 mx-3">
                 <div class="left-item">
