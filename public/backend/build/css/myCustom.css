@@ -14,3 +14,68 @@
 .animation{
     animation: fadeIn 0.9s ease-in-out;
 }
+
+
+.dashboard-card-ammount{
+    font-size: 18px;
+}
+
+.dashboard-card-title{
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.dashboard-card-icon{
+    font-size:60px;
+}
+
+@media only screen and (min-width: 767px) {
+    .dashboard-card-ammount{
+        font-size: 18px;
+    }
+
+    .dashboard-card-title{
+        font-size: 13px;
+    }
+
+    .dashboard-card-icon{
+        font-size:50px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+
+    .dashboard-card-icon{
+        display: none;
+    }
+
+    .dashboard-card-ammount{
+        font-size: 22px;
+    }
+
+
+    .dashboard-card-title{
+        font-size: 11px;
+    }
+}
+
+@media only screen and (min-width: 1297px) {
+
+    .dashboard-card-ammount{
+        font-size: 22px;
+    }
+
+    .dashboard-card-title{
+        font-size: 16px;
+    }
+}
+
+@media only screen and (min-width: 1384px) {
+    .dashboard-card-icon{
+        display: block;
+    }
+
+    .dashboard-card-title{
+        font-size: 14px;
+    }
+}
