@@ -14,11 +14,11 @@
     </div>
 {{-- page title section --}}
 
-
+{{-- report card setion --}}
     <div class="col-12 animation">
         <div class="card">
             <div class="d-flex justify-content-between mt-2 mx-3">
-                <div class="left-item">
+                <div class="left-item" style="color: #000000e0">
                     <h2><i class="fa-solid fa-chart-pie"></i><span class="pl-1">Today Summary</span></h2>
                 </div>
                 <div class="right-item">
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <hr>
+            <hr style="margin-top: 5px">
 
             <div class="row mx-2 mb-3">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
@@ -159,6 +159,288 @@
             </div>
         </div>
     </div>
+{{-- report card setion --}}
+
+<div class="col-12">
+    <div class="row pt-3">
+        <div class="col-12 col-md-5 mb-3 mb-xl-0">
+            <div class="card">
+                <div class="card-header py-1" style="color: #000000e0">
+                    <h2><i class="fa-solid fa-circle-exclamation"></i><span class="pl-1">Stock Alert</span></h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead style="background-color: #3D9970;color:white">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Alert Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>1</th>
+                                <td>Ap-000008</td>
+                                <td>Square</td>
+                                <td>0pc</td>
+                                <td>1pc</td>
+                              </tr>
+                              <tr>
+                                <th>1</th>
+                                <td>Ap-052412</td>
+                                <td>Bat</td>
+                                <td>0pc</td>
+                                <td>10pc</td>
+                              </tr>
+                              <tr>
+                                <th>1</th>
+                                <td>Ap-054462</td>
+                                <td>Fan</td>
+                                <td>0pc</td>
+                                <td>5pc</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7">
+            <div class="card">
+                <div class="card-header py-1" style="color: #000000e0">
+                    <h2><i class="fa-solid fa-swatchbook"></i><span class="pl-1">Recent Activities</span></h2>
+                </div>
+
+                <div class="card-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#invoices">Invoice</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#purchase">Purchase</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#expenses">Expenses</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#transactions">Transactions</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane container active" id="invoices">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead style="background-color: #17A2B8;color:white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Invoice No</th>
+                                        <th scope="col">Invoice Date</th>
+                                        <th scope="col">Client</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col">Net Total</th>
+                                        <th scope="col">Total Due</th>
+                                        <th scope="col">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th>1</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Farhan Fahidur Rahim</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>2</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Farhan Fahidur Rahim</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>3</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Farhan Fahidur Rahim</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>4</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Farhan Fahidur Rahim</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>5</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Farhan Fahidur Rahim</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade" id="purchase">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead style="background-color: #3D9970;color:white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Purchase No</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Supplier</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col">Net Total</th>
+                                        <th scope="col">Total Due</th>
+                                        <th scope="col">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th>1</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>আমিন ব্রাদার্স</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>2</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>আমিন ব্রাদার্স</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>3</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Rahman Traders</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>4</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>Rahman Traders</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                      <tr>
+                                        <th>5</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>আমিন ব্রাদার্স</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade" id="expenses">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead style="background-color: #6366F1;color:white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Sub Category</th>
+                                        <th scope="col">Expense Reason</th>
+                                        <th scope="col">Ammount</th>
+                                        <th scope="col">Account</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+    
+                                      {{-- <tr>
+                                        <th>1</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>আমিন ব্রাদার্স</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr> --}}
+                            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade" id="transactions">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead style="background-color: #007BFF;color:white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Reason</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Account</th>
+                                        <th scope="col">Ammount</th>
+                                        <th scope="col">Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+    
+                                      {{-- <tr>
+                                        <th>1</th>
+                                        <td>Ap-000008</td>
+                                        <td>29th Nov, 2023</td>
+                                        <td>আমিন ব্রাদার্স</td>
+                                        <td>৳300.00</td>
+                                        <td>৳325.00</td>
+                                        <td>৳325.00</td>
+                                        <td><span class="badge badge-primary">Active</span></td>
+                                      </tr> --}}
+                            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </div>
 @endsection
