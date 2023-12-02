@@ -85,3 +85,10 @@
         font-size: 18px;
     }
 }
+
+.piChart-wrapper{
+    position: relative;
+    margin: auto;
+    max-width: 349px;
+}
+
