@@ -6,8 +6,8 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 // product category routes
-Route::group(['as'=>'product-category.','prefix'=>'categories'],function(){
-    Route::get('/index',[CategoryController::class,'index'])->name('index');
+Route::group(['as'=>'product-category.','prefix'=>'categories', 'middleware' => ['permission:product.categories']],function(){
+    Route::get('/index',[CategoryController::class,'index'])->name('index')->middleware('permission:product.categories');
     Route::get('/create',[CategoryController::class,'create'])->name('create');
     Route::post('/store',[CategoryController::class,'store'])->name('store');
     Route::get('/edit/{id}',[CategoryController::class,'edit'])->name('edit');
@@ -16,7 +16,7 @@ Route::group(['as'=>'product-category.','prefix'=>'categories'],function(){
 });
 
 // product sub category routes
-Route::group(['as'=>'product-sub-category.','prefix'=>'sub_categories'],function(){
+Route::group(['as'=>'product-sub-category.','prefix'=>'sub_categories', 'middleware' => ['permission:product.sub.categories']],function(){
     Route::get('/index',[SubCategoryController::class,'index'])->name('index');
     Route::get('/create',[SubCategoryController::class,'create'])->name('create');
     Route::post('/store',[SubCategoryController::class,'store'])->name('store');
@@ -26,7 +26,7 @@ Route::group(['as'=>'product-sub-category.','prefix'=>'sub_categories'],function
 });
 
 // product routes
-Route::group(['as'=>'product.','prefix'=>'product'],function(){
+Route::group(['as'=>'product.','prefix'=>'product', 'middleware' => ['permission:product.list']],function(){
     Route::get('/index',[ProductController::class,'index'])->name('index');
     Route::get('/create',[ProductController::class,'create'])->name('create');
     Route::post('/store',[ProductController::class,'store'])->name('store');

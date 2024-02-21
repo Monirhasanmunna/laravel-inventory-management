@@ -4,7 +4,7 @@ use App\Http\Controllers\Backend\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['as'=>'purchase.','prefix'=>'purchase'],function(){
+Route::group(['as'=>'purchase.','prefix'=>'purchase','middleware' => ['permission:purchase.list']],function(){
     Route::get('/index',[PurchaseController::class,'index'])->name('index');
     Route::get('/create',[PurchaseController::class,'create'])->name('create');
     Route::post('/store',[PurchaseController::class,'store'])->name('store');

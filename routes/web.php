@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     //dashboard route
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard')->middleware('permission:dashboard');
 
-    Route::group(['as'=>'suppliers.','prefix'=>'suppliers'],function(){
+    Route::group(['as'=>'suppliers.','prefix'=>'suppliers','middleware' => ['permission:supplier']],function(){
         Route::get('/index',[SupplierController::class,'index'])->name('index');
         Route::get('/create',[SupplierController::class,'create'])->name('create');
         Route::post('/store',[SupplierController::class,'store'])->name('store');

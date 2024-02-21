@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/index',[SetupController::class,'index'])->name('index');
         
         // unit route in setup module
-        Route::group(['as'=>'unit.','prefix'=>'unit'],function(){
+        Route::group(['as'=>'unit.','prefix'=>'unit', 'middleware' => ['permission:setup.units']],function(){
             Route::get('index',[UnitController::class,'index'])->name('index');
             Route::get('create',[UnitController::class,'create'])->name('create');
             Route::post('store',[UnitController::class,'store'])->name('store');
@@ -25,7 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // currency route in setup module
-        Route::group(['as'=>'currency.','prefix'=>'currency'],function(){
+        Route::group(['as'=>'currency.','prefix'=>'currency', 'middleware' => ['permission:setup.currencies']],function(){
             Route::get('index',[CurrencyController::class,'index'])->name('index');
             Route::get('create',[CurrencyController::class,'create'])->name('create');
             Route::post('store',[CurrencyController::class,'store'])->name('store');
@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // vat route in setup module
-        Route::group(['as'=>'vat.','prefix'=>'vat'],function(){
+        Route::group(['as'=>'vat.','prefix'=>'vat', 'middleware' => ['permission:setup.vat']],function(){
             Route::get('index',[VatController::class,'index'])->name('index');
             Route::get('create',[VatController::class,'create'])->name('create');
             Route::post('store',[VatController::class,'store'])->name('store');
@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // brand route in setup module
-        Route::group(['as'=>'brand.','prefix'=>'brand'],function(){
+        Route::group(['as'=>'brand.','prefix'=>'brand', 'middleware' => ['permission:setup.brand']],function(){
             Route::get('index',[BrandController::class,'index'])->name('index');
             Route::get('create',[BrandController::class,'create'])->name('create');
             Route::post('store',[BrandController::class,'store'])->name('store');

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::group(['prefix'=> 'cashbook'],function(){
         // accounts routes
-        Route::group(['as'=>'accounts.','prefix'=>'accounts'],function(){
+        Route::group(['as'=>'accounts.','prefix'=>'accounts', 'middleware' => ['permission:cashbook.accounts']],function(){
             Route::get('/',[AccountController::class,'index'])->name('index');
             Route::get('/create',[AccountController::class,'create'])->name('create');
             Route::post('/store',[AccountController::class,'store'])->name('store');
@@ -19,7 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // balance adjustment routes
-        Route::group(['as'=>'balance.','prefix'=>'balance'],function(){
+        Route::group(['as'=>'balance.','prefix'=>'balance', 'middleware' => ['permission:cashbook.balance.adjustment']],function(){
             Route::get('/',[BalanceAdjustmentController::class,'index'])->name('index');
             Route::get('/create',[BalanceAdjustmentController::class,'create'])->name('create');
             Route::post('/store',[BalanceAdjustmentController::class,'store'])->name('store');
@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         // balance transfer route
-        Route::group(['as'=>'balance-transfer.','prefix'=>'balance-transfer'],function(){
+        Route::group(['as'=>'balance-transfer.','prefix'=>'balance-transfer', 'middleware' => ['permission:cashbook.balance.transfer']],function(){
             Route::get('/',[BalanceTransferController::class,'index'])->name('index');
             Route::get('/create',[BalanceTransferController::class,'create'])->name('create');
             Route::post('/store',[BalanceTransferController::class,'store'])->name('store');
@@ -41,7 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/destroy/{id}',[BalanceTransferController::class,'destroy'])->name('destroy');
         });
 
-        Route::group(['as'=>'transaction.','prefix'=>'transaction'],function(){
+        Route::group(['as'=>'transaction.','prefix'=>'transaction', 'middleware' => ['permission:cashbook.transaction.history']],function(){
             Route::get('/',[TransactionHistoryController::class,'index'])->name('index');
             Route::get('/create',[TransactionHistoryController::class,'create'])->name('create');
             Route::post('/store',[TransactionHistoryController::class,'store'])->name('store');

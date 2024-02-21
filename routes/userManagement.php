@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['as'=>'userManagement.','prefix'=>'user_management'],function(){
+Route::group(['as'=>'userManagement.','prefix'=>'user_management', 'middleware' => ['permission:user_management.permissions']],function(){
 
     Route::group(['as'=>'permission.','prefix'=>'permission'],function(){
         Route::get('/index',[PermissionController::class,'index'])->name('index');
@@ -21,7 +21,7 @@ Route::group(['as'=>'userManagement.','prefix'=>'user_management'],function(){
     });
 
 
-    Route::group(['as'=>'role.','prefix'=>'role'],function(){
+    Route::group(['as'=>'role.','prefix'=>'role', 'middleware' => ['permission:user_management.roles']],function(){
         Route::get('/index',[RoleController::class,'index'])->name('index');
         Route::get('/create',[RoleController::class,'create'])->name('create');
         Route::post('/store',[RoleController::class,'store'])->name('store');
@@ -41,7 +41,7 @@ Route::group(['as'=>'userManagement.','prefix'=>'user_management'],function(){
     });
 
 
-    Route::group(['as'=>'user.','prefix'=>'user'],function(){
+    Route::group(['as'=>'user.','prefix'=>'user', 'middleware' => ['permission:user_management.users']],function(){
         Route::get('/index',[UserController::class,'index'])->name('index');
         Route::get('/create',[UserController::class,'create'])->name('create');
         Route::post('/store',[UserController::class,'store'])->name('store');
